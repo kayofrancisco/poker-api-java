@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -18,8 +20,8 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "clubes", schema = "poker")
-public class Clube {
+@Table(name = "usuarios", schema = "poker")
+public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -27,19 +29,36 @@ public class Clube {
 
 	@Column(name = "nome")
 	private String nome;
+	
+	@Column(name = "email")
+	private String email;
+	
+	@Column(name = "cpf")
+	private String cpf;
+	
+	@Column(name = "senha")
+	private String senha;
+	
+	@Column(name = "ativo")
+	private Boolean ativo;
 
-	@Column(name = "criado_em")
+	@Column(name = "criado_em", nullable = false)
 	@JsonFormat(pattern =  UtilData.PATTERN_DATA)
 	private LocalDateTime criadoEm;
 
-	@Column(name = "ultima_atualizacao")
+	@Column(name = "ultima_atualizacao", nullable = false)
 	@JsonFormat(pattern =  UtilData.PATTERN_DATA)
 	private LocalDateTime ultimaAtualizacao;
+	
+	@ManyToOne
+    @JoinColumn(name="id_perfil")
+    private Perfil perfil;
 	
 	@PrePersist
 	public void prePersist() {
 		setUltimaAtualizacao(LocalDateTime.now());
 		setCriadoEm(LocalDateTime.now());
+		setAtivo(Boolean.TRUE);
 	}
 	
 	@PreUpdate

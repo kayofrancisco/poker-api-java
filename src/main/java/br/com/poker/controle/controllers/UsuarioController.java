@@ -13,24 +13,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.poker.controle.models.Clube;
+import br.com.poker.controle.models.Usuario;
 import br.com.poker.controle.models.dto.ContentDTO;
-import br.com.poker.controle.service.ClubeService;
+import br.com.poker.controle.service.UsuarioService;
 import br.com.poker.controle.utils.ResponseUtils;
 
 @RestController
-@RequestMapping(value = "/clubes", produces = "application/json")
-public class ClubeController {
+@RequestMapping(value = "/usuarios", produces = "application/json")
+public class UsuarioController {
 
-	private ClubeService service;
+	private UsuarioService service;
 	
 	@Autowired
-	private void setClubeService(ClubeService service) {
+	private void setUsuarioService(UsuarioService service) {
 		this.service = service;
 	}
 
 	@GetMapping
-	public ResponseEntity<ContentDTO<List<Clube>>> buscar() {
+	public ResponseEntity<ContentDTO<List<Usuario>>> buscar() {
 		try {
 			return ResponseUtils.sucesso(service.buscar());
 		} catch (Exception e) {
@@ -39,18 +39,18 @@ public class ClubeController {
 	}
 
 	@PostMapping
-	public ResponseEntity<ContentDTO<Clube>> cadastrar(@RequestBody Clube clube) {
+	public ResponseEntity<ContentDTO<Usuario>> cadastrar(@RequestBody Usuario usuario) {
 		try {
-			return ResponseUtils.sucesso(service.cadastrar(clube));
+			return ResponseUtils.sucesso(service.cadastrar(usuario));
 		} catch (Exception e) {
 			return ResponseUtils.falha(e);
 		}
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<ContentDTO<Clube>> editar(@RequestBody Clube clube, @PathVariable("id") Integer id) {
+	public ResponseEntity<ContentDTO<Usuario>> editar(@RequestBody Usuario usuario, @PathVariable("id") Integer id) {
 		try {
-			return ResponseUtils.sucesso(service.editar(clube, id));
+			return ResponseUtils.sucesso(service.editar(usuario, id));
 		} catch (Exception e) {
 			return ResponseUtils.falha(e);
 		}
