@@ -23,4 +23,15 @@ public class Perfil {
 
 	@Column(name = "sigla")
 	private String sigla;
+	
+	public Perfil() {}
+
+	public Perfil(Integer id, String descricao, String sigla) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.sigla = sigla;
+	}
+	
+	
 }

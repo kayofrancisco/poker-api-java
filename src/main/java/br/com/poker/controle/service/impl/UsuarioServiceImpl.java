@@ -55,8 +55,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 		usuario.setCpf(Utils.sanitizar(usuario.getCpf()).orElse(null));
 
-		Boolean validaCpfNoBanco = !usuario.getCpf().equals(usuarioBanco.getCpf());
-		Boolean validaEmailNoBanco = !usuario.getEmail().equals(usuarioBanco.getEmail());
+		Boolean validaCpfNoBanco = !usuarioBanco.getCpf().equals(usuario.getCpf());
+		Boolean validaEmailNoBanco = !usuarioBanco.getEmail().equals(usuario.getEmail());
 		
 
 		ValidadorUsuario validador = new ValidadorUsuario(usuario, repository, validaCpfNoBanco, validaEmailNoBanco);

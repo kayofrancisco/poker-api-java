@@ -17,7 +17,7 @@ public class ClubeServiceImpl implements ClubeService {
 	private ClubeRepository repository;
 
 	@Autowired
-	private void setRepository(ClubeRepository repository) {
+	protected void setRepository(ClubeRepository repository) {
 		this.repository = repository;
 	}
 

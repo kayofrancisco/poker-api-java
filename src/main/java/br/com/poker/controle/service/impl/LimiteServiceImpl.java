@@ -15,7 +15,7 @@ public class LimiteServiceImpl implements LimiteService {
 	private LimiteRepository repository;
 
 	@Autowired
-	private void setRepository(LimiteRepository repository) {
+	protected void setRepository(LimiteRepository repository) {
 		this.repository = repository;
 	}
 

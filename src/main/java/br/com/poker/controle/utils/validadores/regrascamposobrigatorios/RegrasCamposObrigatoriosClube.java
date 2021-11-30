@@ -1,6 +1,6 @@
 package br.com.poker.controle.utils.validadores.regrascamposobrigatorios;
 import static br.com.poker.controle.utils.Utils.isNuloOuVazio;
-import static br.com.poker.controle.utils.validadores.alertas.AlertasUsuario.alertaNomeNuloOuVazio;
+import static br.com.poker.controle.utils.validadores.alertas.AlertasClube.alertaNomeNuloOuVazio;
 
 import java.util.ArrayList;
 import java.util.List;

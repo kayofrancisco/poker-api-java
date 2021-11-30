@@ -25,4 +25,14 @@ public class Limite {
 
 	@Column(name = "big_blind")
 	private BigDecimal bigBlind;
+
+	public Limite() {
+	}
+
+	public Limite(Integer id, BigDecimal smallBlind, BigDecimal bigBlind) {
+		super();
+		this.id = id;
+		this.smallBlind = smallBlind;
+		this.bigBlind = bigBlind;
+	}
 }

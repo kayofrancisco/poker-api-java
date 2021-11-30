@@ -15,7 +15,7 @@ public class PerfilServiceImpl implements PerfilService {
 	private PerfilRepository repository;
 
 	@Autowired
-	private void setRepository(PerfilRepository repository) {
+	protected void setRepository(PerfilRepository repository) {
 		this.repository = repository;
 	}
 

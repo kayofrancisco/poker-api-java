@@ -42,16 +42,16 @@ public class Usuario {
 	@Column(name = "ativo")
 	private Boolean ativo;
 
-	@Column(name = "criado_em", nullable = false)
+	@Column(name = "criado_em")
 	@JsonFormat(pattern =  UtilData.PATTERN_DATA)
 	private LocalDateTime criadoEm;
 
-	@Column(name = "ultima_atualizacao", nullable = false)
+	@Column(name = "ultima_atualizacao")
 	@JsonFormat(pattern =  UtilData.PATTERN_DATA)
 	private LocalDateTime ultimaAtualizacao;
 	
 	@ManyToOne
-    @JoinColumn(name="id_perfil")
+    @JoinColumn(name="perfil_id")
     private Perfil perfil;
 	
 	@PrePersist

@@ -9,9 +9,6 @@ public class NegocioException extends Exception {
 
 	private List<String> mensagemErros;
 
-	public NegocioException() {
-	}
-
 	public NegocioException(List<String> erros) {
 		this.mensagemErros = erros;
 	}
