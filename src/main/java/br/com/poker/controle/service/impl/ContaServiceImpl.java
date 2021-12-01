@@ -1,6 +1,7 @@
 package br.com.poker.controle.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class ContaServiceImpl implements ContaService {
 	private ContaRepository repository;
 
 	@Autowired
-	private void setRepository(ContaRepository repository) {
+	protected void setRepository(ContaRepository repository) {
 		this.repository = repository;
 	}
 
@@ -39,7 +40,7 @@ public class ContaServiceImpl implements ContaService {
 
 	@Override
 	public Conta editar(Conta conta, Integer id) throws NegocioException {
-		Conta contaParaEditar = repository.findById(id)
+		Conta contaParaEditar = buscarPorId(id)
 				.orElseThrow(() -> new NegocioException("Conta não encontrada para o id informado"));
 
 		ValidadorConta validador = new ValidadorConta(conta, repository,
@@ -58,5 +59,10 @@ public class ContaServiceImpl implements ContaService {
 	@Override
 	public void deletar(Integer id) {
 		repository.deleteById(id);
+	}
+
+	@Override
+	public Optional<Conta> buscarPorId(Integer id) {
+		return repository.findById(id);
 	}
 }

@@ -45,4 +45,15 @@ public class Conta {
 		setCriadoEm(LocalDateTime.now());
 		setAtivo(Boolean.TRUE);
 	}
+	
+	public Conta() {}
+
+	public Conta(Integer id, String nick, Usuario usuario) {
+		super();
+		this.id = id;
+		this.nick = nick;
+		this.usuario = usuario;
+	}
+	
+	
 }

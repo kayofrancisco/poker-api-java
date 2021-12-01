@@ -1,6 +1,7 @@
 package br.com.poker.controle.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class ClubeServiceImpl implements ClubeService {
 
 	@Override
 	public Clube editar(Clube clube, Integer id) throws NegocioException {
-		Clube clubeParaEditar = repository.findById(id)
+		Clube clubeParaEditar = buscarPorId(id)
 				.orElseThrow(() -> new NegocioException("Clube não encontrado para o id informado"));
 
 		ValidadorClube validador = new ValidadorClube(clube);
@@ -56,5 +57,10 @@ public class ClubeServiceImpl implements ClubeService {
 	@Override
 	public void deletar(Integer id) {
 		repository.deleteById(id);
+	}
+
+	@Override
+	public Optional<Clube> buscarPorId(Integer id) {
+		return repository.findById(id);
 	}
 }

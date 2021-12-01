@@ -43,11 +43,11 @@ public class ClubeServiceImplTest {
 		clube3 = retornarClube3();
 		clubes = retornarListaClubes();
 
-		lenient().when(clubeRepositoryMock.findAll()).thenReturn(clubes);
-		lenient().when(clubeRepositoryMock.findById(1)).thenReturn(Optional.of(clube1));
-		lenient().when(clubeRepositoryMock.findById(2)).thenReturn(Optional.of(clube2));
-		lenient().when(clubeRepositoryMock.findById(3)).thenReturn(Optional.of(clube3));
-		lenient().when(clubeRepositoryMock.findById(4)).thenReturn(Optional.ofNullable(null));
+		lenient().when(clubeService.buscar()).thenReturn(clubes);
+		lenient().when(clubeService.buscarPorId(1)).thenReturn(Optional.of(clube1));
+		lenient().when(clubeService.buscarPorId(2)).thenReturn(Optional.of(clube2));
+		lenient().when(clubeService.buscarPorId(3)).thenReturn(Optional.of(clube3));
+		lenient().when(clubeService.buscarPorId(4)).thenReturn(Optional.ofNullable(null));
 	}
 
 	@Test
@@ -80,18 +80,18 @@ public class ClubeServiceImplTest {
 			fail();
 		}
 	}
-	
+
 	@Test
 	void deveRetornarErroPorIdNaoEncontrado() {
 		Clube clubeValido = retornarClube2();
-		
+
 		NegocioException e = assertThrows(NegocioException.class, () -> {
 			clubeService.editar(clubeValido, 4);
 		});
-		
+
 		assertTrue(e.getMensagemErros().contains("Clube não encontrado para o id informado"));
 	}
-	
+
 	@Test
 	void deveRetornarErroPorNomeNaoInformado() {
 		Clube clubeValido = retornarClube2();
@@ -104,11 +104,11 @@ public class ClubeServiceImplTest {
 
 		assertTrue(e.getMensagemErros().contains(alertaNomeNuloOuVazio()));
 	}
-	
+
 	@Test
 	void deveEditarClube() {
 		Clube clubeValido = retornarClube3();
-		
+
 		try {
 			clubeService.editar(clubeValido, 3);
 		} catch (Exception e) {

@@ -13,9 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.poker.controle.models.Limite;
-import br.com.poker.controle.models.Perfil;
 import br.com.poker.controle.repository.LimiteRepository;
-import br.com.poker.controle.repository.PerfilRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class LimiteServiceImplTest {
