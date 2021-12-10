@@ -17,7 +17,7 @@ public class PartidaServiceImpl implements PartidaService {
 	private PartidaRepository repository;
 
 	@Autowired
-	private void setRepository(PartidaRepository repository) {
+	protected void setRepository(PartidaRepository repository) {
 		this.repository = repository;
 	}
 

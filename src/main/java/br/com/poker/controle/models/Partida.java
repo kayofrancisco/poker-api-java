@@ -28,22 +28,38 @@ public class Partida {
 
 	@Column(name = "valor_ganho")
 	private BigDecimal valor;
-	
+
 	@Column(name = "quantidade_big_blind")
 	private Integer quantidadeBigBlind;
 
 	@Column(name = "quantidade_maos")
 	private Integer quantidadeMaos;
-	
+
 	@Column(name = "criado_em")
-	@JsonFormat(pattern =  UtilData.PATTERN_DATA)
+	@JsonFormat(pattern = UtilData.PATTERN_DATA)
 	private LocalDateTime criadoEm;
 
 	@ManyToOne
-    @JoinColumn(name="limite_id")
-    private Limite limite;
+	@JoinColumn(name = "limite_id")
+	private Limite limite;
 
 	@ManyToOne
-	@JoinColumn(name="conta_id")
+	@JoinColumn(name = "conta_id")
 	private Conta conta;
+
+	public Partida() {
+	}
+
+	public Partida(Integer id, BigDecimal valor, Integer quantidadeBigBlind, Integer quantidadeMaos,
+			LocalDateTime criadoEm, Limite limite, Conta conta) {
+		super();
+		this.id = id;
+		this.valor = valor;
+		this.quantidadeBigBlind = quantidadeBigBlind;
+		this.quantidadeMaos = quantidadeMaos;
+		this.criadoEm = criadoEm;
+		this.limite = limite;
+		this.conta = conta;
+	}
+
 }

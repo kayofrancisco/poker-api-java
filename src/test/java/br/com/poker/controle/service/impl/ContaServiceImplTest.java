@@ -24,7 +24,7 @@ import br.com.poker.controle.models.Usuario;
 import br.com.poker.controle.repository.ContaRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class ContaServiceImplTeste {
+public class ContaServiceImplTest {
 	static ContaServiceImpl service;
 	static ContaRepository repository;
 	
