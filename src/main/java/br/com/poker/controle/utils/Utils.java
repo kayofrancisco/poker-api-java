@@ -7,6 +7,10 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import br.com.caelum.stella.validation.CPFValidator;
 
 public class Utils {
@@ -34,12 +38,15 @@ public class Utils {
 		}
 	}
 
-	public static String gerarHashParaSenha(byte[] byteArray) throws NoSuchAlgorithmException {
-		MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-		messageDigest.update(byteArray);
-		byte[] hash = messageDigest.digest();
-
-		return bytesToHex(hash);
+	public static String gerarHashParaSenha(String senha) throws NoSuchAlgorithmException {
+		return new BCryptPasswordEncoder().encode(senha);
+		
+		
+//		MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+//		messageDigest.update(byteArray);
+//		byte[] hash = messageDigest.digest();
+//
+//		return bytesToHex(hash);
 	}
 
 	public static String bytesToHex(byte[] hash) {

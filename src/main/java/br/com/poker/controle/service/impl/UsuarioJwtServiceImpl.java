@@ -32,8 +32,7 @@ public class UsuarioJwtServiceImpl implements UsuarioJwtService {
 
 		Usuario usuario = listUsuarios.get(0);
 
-		return User.builder().username(usuario.getNome())
-				.password(usuario.getSenha()).roles("USER").build();
+		return User.builder().username(usuario.getNome()).password(usuario.getSenha()).roles("USER").build();
 	}
 
 }
