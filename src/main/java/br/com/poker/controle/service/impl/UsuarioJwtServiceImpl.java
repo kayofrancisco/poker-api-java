@@ -24,7 +24,7 @@ public class UsuarioJwtServiceImpl implements UsuarioJwtService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		List<Usuario> listUsuarios = service.buscarPorCpfOuEmail(username, username);
+		List<Usuario> listUsuarios = service.buscarPorEmail(username);
 
 		if (listUsuarios.isEmpty()) {
 			throw new UsernameNotFoundException("Login não encontrado");

@@ -8,10 +8,10 @@ import br.com.poker.controle.utils.validadores.regrasnegociais.RegraNegocialUsua
 
 public class ValidadorUsuario extends Validador<Usuario> {
 
-	public ValidadorUsuario(Usuario objetoParaValidar, UsuarioRepository usuarioRepository, Boolean validaCpfNoBanco, Boolean validaEmailNoBanco) {
+	public ValidadorUsuario(Usuario objetoParaValidar, UsuarioRepository usuarioRepository, Boolean validaEmailNoBanco) {
 		super(objetoParaValidar);
 		adicionarRegra(new RegrasCamposObrigatoriosUsuario());
-		adicionarRegra(new RegraNegocialUsuario(usuarioRepository, validaCpfNoBanco, validaEmailNoBanco));
+		adicionarRegra(new RegraNegocialUsuario(usuarioRepository, validaEmailNoBanco));
 	}
 
 }

@@ -33,9 +33,6 @@ public class Usuario {
 	@Column(name = "email")
 	private String email;
 	
-	@Column(name = "cpf")
-	private String cpf;
-	
 	@Column(name = "senha")
 	private String senha;
 	
@@ -59,6 +56,7 @@ public class Usuario {
 		setUltimaAtualizacao(LocalDateTime.now());
 		setCriadoEm(LocalDateTime.now());
 		setAtivo(Boolean.TRUE);
+		setPerfil(Perfil.perfilComum());
 	}
 	
 	@PreUpdate

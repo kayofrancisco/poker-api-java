@@ -304,7 +304,6 @@ public class PartidaServiceImplTest {
 	private static Conta retornarConta() {
 		Usuario usuario = new Usuario();
 		usuario.setId(1);
-		usuario.setCpf("01234567891");
 		usuario.setAtivo(Boolean.TRUE);
 		usuario.setCriadoEm(LocalDateTime.now());
 		usuario.setEmail("teste@hotmail.com");

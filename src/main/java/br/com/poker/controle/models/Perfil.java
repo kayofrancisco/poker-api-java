@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.com.poker.controle.utils.UtilConstantes;
 import lombok.Data;
 
 @Entity
@@ -33,5 +34,10 @@ public class Perfil {
 		this.sigla = sigla;
 	}
 	
-	
+	public static Perfil perfilComum() {
+		Perfil perfilComum = new Perfil();
+		perfilComum.setId(UtilConstantes.ID_PERFIL_COMUM);
+		
+		return perfilComum;
+	}
 }

@@ -35,9 +35,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public Usuario cadastrar(Usuario usuario) throws NegocioException {
-		usuario.setCpf(Utils.sanitizar(usuario.getCpf()).orElse(null));
-
-		ValidadorUsuario validador = new ValidadorUsuario(usuario, repository, Boolean.TRUE, Boolean.TRUE);
+		ValidadorUsuario validador = new ValidadorUsuario(usuario, repository, Boolean.TRUE);
 
 		if (!validador.validar()) {
 			throw new NegocioException(validador.getErros());
@@ -51,19 +49,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 		Usuario usuarioBanco = buscarPorId(id)
 				.orElseThrow(() -> new NegocioException("Usuário não encontrado para o id informado"));
 
-		usuario.setCpf(Utils.sanitizar(usuario.getCpf()).orElse(null));
 
-		Boolean validaCpfNoBanco = !usuarioBanco.getCpf().equals(usuario.getCpf());
 		Boolean validaEmailNoBanco = !usuarioBanco.getEmail().equals(usuario.getEmail());
 		
 
-		ValidadorUsuario validador = new ValidadorUsuario(usuario, repository, validaCpfNoBanco, validaEmailNoBanco);
+		ValidadorUsuario validador = new ValidadorUsuario(usuario, repository, validaEmailNoBanco);
 
 		if (!validador.validar()) {
 			throw new NegocioException(validador.getErros());
 		}
 		
-		usuarioBanco.setCpf(usuario.getCpf());
 		usuarioBanco.setEmail(usuario.getEmail());
 		usuarioBanco.setNome(usuario.getNome());
 
@@ -86,7 +81,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public List<Usuario> buscarPorCpfOuEmail(String cpf, String email) {
-		return repository.findByCpfOrEmail(cpf, email);
+	public List<Usuario> buscarPorEmail(String email) {
+		return repository.findByEmail(email);
 	}
 }

@@ -24,17 +24,13 @@ public class RegrasCamposObrigatoriosUsuario implements RegrasValidador<Usuario>
 			erros.add(alertaEmailNuloOuVazio());
 		}
 
-		if (isNuloOuVazio(usuario.getCpf())) {
-			erros.add(alertaCpfNuloOuVazio());
-		}
-
 		if (isNuloOuVazio(usuario.getSenha())) {
 			erros.add(alertaSenhaNuloOuVazio());
 		}
 		
-		if (usuario.getPerfil() == null || usuario.getPerfil().getId() == null) {
-			erros.add(alertaUsuarioSemPerfil());
-		}
+//		if (usuario.getPerfil() == null || usuario.getPerfil().getId() == null) {
+//			erros.add(alertaUsuarioSemPerfil());
+//		}
 
 		if (erros.size() > 0) {
 			throw new NegocioException(erros);
