@@ -34,7 +34,7 @@ public class RegrasCamposObrigatoriosPartida implements RegrasValidador<Partida>
 			erros.add(alertaLimiteNulo());
 		}
 		
-		if (partida.getCriadoEm() == null) {
+		if (partida.getData() == null) {
 			erros.add(alertaDataCriacaoNulo());
 		}
 

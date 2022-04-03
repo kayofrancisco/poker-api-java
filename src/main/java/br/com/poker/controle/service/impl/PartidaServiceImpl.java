@@ -49,7 +49,7 @@ public class PartidaServiceImpl implements PartidaService {
 		}
 		
 		partidaBanco.setConta(partida.getConta());
-		partidaBanco.setCriadoEm(partida.getCriadoEm());
+		partidaBanco.setData(partida.getData());
 		partidaBanco.setLimite(partida.getLimite());
 		partidaBanco.setQuantidadeBigBlind(partida.getQuantidadeBigBlind());
 		partidaBanco.setQuantidadeMaos(partida.getQuantidadeMaos());

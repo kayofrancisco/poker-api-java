@@ -152,7 +152,7 @@ public class PartidaServiceImplTest {
 	@Test
 	void deveRetornarErroPorDataCriacaoNulo() {
 		Partida partida = retornarPartida1();
-		partida.setCriadoEm(null);
+		partida.setData(null);
 
 		NegocioException e = assertThrows(NegocioException.class, () -> {
 			service.cadastrar(partida);
@@ -279,7 +279,7 @@ public class PartidaServiceImplTest {
 	@Test
 	void deveRetornarErroPorDataCriacaoNuloEmEditar() {
 		Partida partida = retornarPartida1();
-		partida.setCriadoEm(null);
+		partida.setData(null);
 
 		NegocioException e = assertThrows(NegocioException.class, () -> {
 			service.editar(partida, 1);
@@ -291,7 +291,7 @@ public class PartidaServiceImplTest {
 	@Test
 	void deveEditarPartida() throws NegocioException {
 		Partida partida = retornarPartida1();
-		partida.setCriadoEm(LocalDateTime.now());
+		partida.setData(LocalDateTime.now());
 
 		Conta contaPersist = retornarConta();
 		contaPersist.setId(1);

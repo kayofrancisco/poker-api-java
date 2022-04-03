@@ -35,9 +35,12 @@ public class Partida {
 	@Column(name = "quantidade_maos")
 	private Integer quantidadeMaos;
 
-	@Column(name = "criado_em")
+	@Column(name = "quantidade_mesas")
+	private Integer quantidadeMesas;
+
+	@Column(name = "data_partida")
 	@JsonFormat(pattern = UtilData.PATTERN_DATA)
-	private LocalDateTime criadoEm;
+	private LocalDateTime data;
 
 	@ManyToOne
 	@JoinColumn(name = "limite_id")
@@ -51,13 +54,13 @@ public class Partida {
 	}
 
 	public Partida(Integer id, BigDecimal valor, Integer quantidadeBigBlind, Integer quantidadeMaos,
-			LocalDateTime criadoEm, Limite limite, Conta conta) {
+			LocalDateTime data, Limite limite, Conta conta) {
 		super();
 		this.id = id;
 		this.valor = valor;
 		this.quantidadeBigBlind = quantidadeBigBlind;
 		this.quantidadeMaos = quantidadeMaos;
-		this.criadoEm = criadoEm;
+		this.data = data;
 		this.limite = limite;
 		this.conta = conta;
 	}

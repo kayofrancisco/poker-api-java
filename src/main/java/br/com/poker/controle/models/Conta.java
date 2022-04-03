@@ -54,6 +54,4 @@ public class Conta {
 		this.nick = nick;
 		this.usuario = usuario;
 	}
-	
-	
 }
