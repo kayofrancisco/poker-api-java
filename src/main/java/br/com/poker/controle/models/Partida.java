@@ -30,7 +30,7 @@ public class Partida {
 	private BigDecimal valor;
 
 	@Column(name = "quantidade_big_blind")
-	private Integer quantidadeBigBlind;
+	private BigDecimal quantidadeBigBlind;
 
 	@Column(name = "quantidade_maos")
 	private Integer quantidadeMaos;
@@ -53,7 +53,7 @@ public class Partida {
 	public Partida() {
 	}
 
-	public Partida(Integer id, BigDecimal valor, Integer quantidadeBigBlind, Integer quantidadeMaos,
+	public Partida(Integer id, BigDecimal valor, BigDecimal quantidadeBigBlind, Integer quantidadeMaos,
 			LocalDateTime data, Limite limite, Conta conta) {
 		super();
 		this.id = id;

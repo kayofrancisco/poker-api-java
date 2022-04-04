@@ -1,5 +1,7 @@
 package br.com.poker.controle.service.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,10 @@ public class PartidaServiceImpl implements PartidaService {
 			throw new NegocioException(validador.getErros());
 		}
 
+		BigDecimal quantidade = partida.getValor().divide(partida.getLimite().getBigBlind(), 2, RoundingMode.HALF_UP);
+
+		partida.setQuantidadeBigBlind(quantidade);
+
 		return repository.save(partida);
 	}
 
@@ -47,15 +53,19 @@ public class PartidaServiceImpl implements PartidaService {
 		if (!validador.validar()) {
 			throw new NegocioException(validador.getErros());
 		}
-		
+
 		partidaBanco.setConta(partida.getConta());
 		partidaBanco.setData(partida.getData());
 		partidaBanco.setLimite(partida.getLimite());
 		partidaBanco.setQuantidadeBigBlind(partida.getQuantidadeBigBlind());
 		partidaBanco.setQuantidadeMaos(partida.getQuantidadeMaos());
 		partidaBanco.setValor(partida.getValor());
-		
 
 		return repository.save(partidaBanco);
+	}
+
+	@Override
+	public void excluir(Integer id) throws NegocioException {
+		this.repository.deleteById(id);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +42,16 @@ public class PartidaController {
 	public ResponseEntity<ContentDTO<Partida>> cadastrar(@RequestBody Partida partida) {
 		try {
 			return ResponseUtils.sucesso(service.cadastrar(partida));
+		} catch (Exception e) {
+			return ResponseUtils.falha(e);
+		}
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<ContentDTO<Object>> excluir(@PathVariable("id") Integer id) {
+		try {
+			service.excluir(id);
+			return ResponseUtils.sucesso();
 		} catch (Exception e) {
 			return ResponseUtils.falha(e);
 		}

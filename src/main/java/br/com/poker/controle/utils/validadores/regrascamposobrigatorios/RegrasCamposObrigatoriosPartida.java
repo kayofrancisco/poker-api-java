@@ -4,6 +4,7 @@ import static br.com.poker.controle.utils.validadores.alertas.AlertasPartida.ale
 import static br.com.poker.controle.utils.validadores.alertas.AlertasPartida.alertaLimiteNulo;
 import static br.com.poker.controle.utils.validadores.alertas.AlertasPartida.alertaQuantidadeMaosNuloOuMenorQueZero;
 import static br.com.poker.controle.utils.validadores.alertas.AlertasPartida.alertaValorNulo;
+import static br.com.poker.controle.utils.validadores.alertas.AlertasPartida.alertaQuantidadeMesasNuloOuMenorQueZero;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,10 @@ public class RegrasCamposObrigatoriosPartida implements RegrasValidador<Partida>
 		
 		if (partida.getQuantidadeMaos() == null || partida.getQuantidadeMaos() <= 0) {
 			erros.add(alertaQuantidadeMaosNuloOuMenorQueZero());
+		}
+		
+		if (partida.getQuantidadeMesas() == null || partida.getQuantidadeMesas() <= 0) {
+			erros.add(alertaQuantidadeMesasNuloOuMenorQueZero());
 		}
 		
 		if (partida.getConta() == null || partida.getConta().getId() == null) {

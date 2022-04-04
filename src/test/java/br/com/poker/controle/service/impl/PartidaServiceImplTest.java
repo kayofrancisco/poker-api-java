@@ -329,11 +329,11 @@ public class PartidaServiceImplTest {
 	}
 
 	private static Partida retornarPartida1() {
-		return new Partida(1, new BigDecimal(100), 100, 140, LocalDateTime.now(), limite, conta);
+		return new Partida(1, new BigDecimal(100), new BigDecimal(100), 140, LocalDateTime.now(), limite, conta);
 	}
 
 	private static Partida retornarPartida2() {
-		return new Partida(1, new BigDecimal(36), 36, 312, LocalDateTime.now(), limite, conta);
+		return new Partida(1, new BigDecimal(36), new BigDecimal(36), 312, LocalDateTime.now(), limite, conta);
 	}
 
 	private static List<Partida> retornarPartidas() {

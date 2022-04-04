@@ -9,6 +9,10 @@ public abstract class AlertasPartida {
 	public static String alertaQuantidadeMaosNuloOuMenorQueZero() {
 		return "O número de mãos da partida deve ser informado";
 	}
+
+	public static String alertaQuantidadeMesasNuloOuMenorQueZero() {
+		return "O número de mesas da partida deve ser informado";
+	}
 	
 	public static String alertaContaNulo() {
 		return "A conta que foi jogada a partida deve ser informada";
