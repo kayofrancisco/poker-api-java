@@ -1,7 +1,5 @@
 package br.com.poker.controle.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,15 +22,13 @@ public class UsuarioJwtServiceImpl implements UsuarioJwtService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		List<Usuario> listUsuarios = service.buscarPorEmail(username);
+		Usuario usuario = service.buscarPorEmail(username);
 
-		if (listUsuarios.isEmpty()) {
+		if (usuario == null) {
 			throw new UsernameNotFoundException("Login não encontrado");
 		}
 
-		Usuario usuario = listUsuarios.get(0);
-
-		return User.builder().username(usuario.getNome()).password(usuario.getSenha()).roles("USER").build();
+		return User.builder().username(usuario.getEmail()).password(usuario.getSenha()).roles("USER").build();
 	}
 
 }

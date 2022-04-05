@@ -1,10 +1,11 @@
 package br.com.poker.controle.service.impl;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,6 @@ import br.com.poker.controle.exceptions.NegocioException;
 import br.com.poker.controle.models.Usuario;
 import br.com.poker.controle.repository.UsuarioRepository;
 import br.com.poker.controle.service.UsuarioService;
-import br.com.poker.controle.utils.Utils;
 import br.com.poker.controle.utils.validadores.teste.ValidadorUsuario;
 
 @Service("UsuarioService")
@@ -81,7 +81,17 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public List<Usuario> buscarPorEmail(String email) {
-		return repository.findByEmail(email);
+	public Usuario buscarPorEmail(String email) {
+		return repository.findByEmail(email).orElse(null);
+	}
+
+	@Override
+	public Usuario recuperaUsuarioLogado() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		String email =  auth.getName();
+		
+		
+		return buscarPorEmail(email);
 	}
 }

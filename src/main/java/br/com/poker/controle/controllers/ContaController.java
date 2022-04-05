@@ -1,5 +1,6 @@
 package br.com.poker.controle.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class ContaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<ContentDTO<Conta>> cadastrar(@RequestBody Conta conta) {
+	public ResponseEntity<ContentDTO<Conta>> cadastrar(@RequestBody Conta conta, Principal principal) {
 		try {
 			return ResponseUtils.sucesso(service.cadastrar(conta));
 		} catch (Exception e) {

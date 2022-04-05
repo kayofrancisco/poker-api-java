@@ -26,14 +26,14 @@ public class RegraNegocialUsuario implements RegrasValidador<Usuario> {
 	public void validar(Usuario usuario) throws NegocioException {
 		List<String> erros = new ArrayList<>();
 
-		List<Usuario> usuariosPorEmail = usuarioRepository.findByEmail(usuario.getEmail());
+		Usuario usuarioBanco = usuarioRepository.findByEmail(usuario.getEmail()).orElse(null);
 
 		if (!Utils.emailValido(usuario.getEmail())) {
 			erros.add(alertaEmailInvalido());
 		}
 
 		if (validaEmailNoBanco) {
-			if (usuariosPorEmail.size() > 0) {
+			if (usuarioBanco != null) {
 				erros.add(alertaUsuarioExistenteComEmail());
 			}
 		}
