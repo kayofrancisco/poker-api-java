@@ -32,15 +32,25 @@ public class Partida {
 	@Column(name = "quantidade_big_blind")
 	private BigDecimal quantidadeBigBlind;
 
-	@Column(name = "quantidade_maos")
-	private Integer quantidadeMaos;
+	@Column(name = "quantidade_maos_inicio")
+	private Integer quantidadeMaosInicio;
+	
+	@Column(name = "quantidade_maos_fim")
+	private Integer quantidadeMaosFim;
+	
+	@Column(name = "fichas_iniciais")
+	private BigDecimal fichasIniciais;
+	
+	@Column(name = "fichas_finais")
+	private BigDecimal fichasFinais;
 
-	@Column(name = "quantidade_mesas")
-	private Integer quantidadeMesas;
-
-	@Column(name = "data_partida")
+	@Column(name = "data_inicio")
 	@JsonFormat(pattern = UtilData.PATTERN_DATA)
-	private LocalDateTime data;
+	private LocalDateTime dataInicio;
+
+	@Column(name = "data_fim")
+	@JsonFormat(pattern = UtilData.PATTERN_DATA)
+	private LocalDateTime dataFim;
 
 	@ManyToOne
 	@JoinColumn(name = "limite_id")
@@ -53,14 +63,16 @@ public class Partida {
 	public Partida() {
 	}
 
-	public Partida(Integer id, BigDecimal valor, BigDecimal quantidadeBigBlind, Integer quantidadeMaos,
-			LocalDateTime data, Limite limite, Conta conta) {
+	public Partida(Integer id, BigDecimal valor, BigDecimal quantidadeBigBlind, Integer quantidadeMaosInicio, Integer quantidadeMaosFim,
+			LocalDateTime dataInicio, LocalDateTime dataFim, Limite limite, Conta conta) {
 		super();
 		this.id = id;
 		this.valor = valor;
 		this.quantidadeBigBlind = quantidadeBigBlind;
-		this.quantidadeMaos = quantidadeMaos;
-		this.data = data;
+		this.quantidadeMaosInicio = quantidadeMaosInicio;
+		this.quantidadeMaosFim = quantidadeMaosFim;
+		this.dataInicio = dataInicio;
+		this.dataFim = dataFim;
 		this.limite = limite;
 		this.conta = conta;
 	}

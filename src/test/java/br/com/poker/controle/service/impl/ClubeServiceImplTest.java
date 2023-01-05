@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.lenient;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -144,6 +145,11 @@ public class ClubeServiceImplTest {
 	}
 
 	private static List<Clube> retornarListaClubes() {
-		return List.of(clube1, clube2, clube3);
+		List<Clube> clubesLista = new ArrayList<Clube>();
+		clubesLista.add(clube1);
+		clubesLista.add(clube2);
+		clubesLista.add(clube3);
+		
+		return clubesLista;
 	}
 }

@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.poker.controle.exceptions.NegocioException;
@@ -20,9 +19,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	private UsuarioRepository repository;
 
-	@Autowired
-	private PasswordEncoder encoder;
-	
 	@Autowired
 	private void setRepository(UsuarioRepository repository) {
 		this.repository = repository;

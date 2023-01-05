@@ -66,6 +66,7 @@ public class ContaServiceImpl implements ContaService {
 
 		contaParaEditar.setAtivo(conta.getAtivo());
 		contaParaEditar.setNick(conta.getNick());
+		contaParaEditar.setPlataforma(conta.getPlataforma());
 		
 		return repository.save(contaParaEditar);
 	}

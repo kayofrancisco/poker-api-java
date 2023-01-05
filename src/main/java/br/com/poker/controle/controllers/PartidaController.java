@@ -62,6 +62,7 @@ public class PartidaController {
 		try {
 			return ResponseUtils.sucesso(service.editar(partida, id));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ResponseUtils.falha(e);
 		}
 	}

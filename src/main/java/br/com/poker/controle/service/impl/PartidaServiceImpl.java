@@ -30,15 +30,11 @@ public class PartidaServiceImpl implements PartidaService {
 
 	@Override
 	public Partida cadastrar(Partida partida) throws NegocioException {
-		ValidadorPartida validador = new ValidadorPartida(partida);
+		ValidadorPartida validador = new ValidadorPartida(partida, Boolean.FALSE);
 
 		if (!validador.validar()) {
 			throw new NegocioException(validador.getErros());
 		}
-
-		BigDecimal quantidade = partida.getValor().divide(partida.getLimite().getBigBlind(), 2, RoundingMode.HALF_UP);
-
-		partida.setQuantidadeBigBlind(quantidade);
 
 		return repository.save(partida);
 	}
@@ -48,19 +44,29 @@ public class PartidaServiceImpl implements PartidaService {
 		Partida partidaBanco = repository.findById(id)
 				.orElseThrow(() -> new NegocioException("Partida não encontrada para o id informado"));
 
-		ValidadorPartida validador = new ValidadorPartida(partida);
+		ValidadorPartida validador = new ValidadorPartida(partida, Boolean.TRUE);
 
 		if (!validador.validar()) {
 			throw new NegocioException(validador.getErros());
 		}
 
 		partidaBanco.setConta(partida.getConta());
-		partidaBanco.setData(partida.getData());
+		partidaBanco.setDataInicio(partida.getDataInicio());
+		partidaBanco.setDataFim(partida.getDataFim());
 		partidaBanco.setLimite(partida.getLimite());
 		partidaBanco.setQuantidadeBigBlind(partida.getQuantidadeBigBlind());
-		partidaBanco.setQuantidadeMaos(partida.getQuantidadeMaos());
-		partidaBanco.setValor(partida.getValor());
+		partidaBanco.setQuantidadeMaosInicio(partida.getQuantidadeMaosInicio());
+		partidaBanco.setQuantidadeMaosFim(partida.getQuantidadeMaosFim());
+		partidaBanco.setFichasIniciais(partida.getFichasIniciais());
+		partidaBanco.setFichasFinais(partida.getFichasFinais());
 
+		partida.setValor(partida.getFichasFinais().subtract(partida.getFichasIniciais()));
+		
+		partidaBanco.setValor(partida.getValor());
+		
+		BigDecimal quantidade = partida.getValor().divide(partida.getLimite().getBigBlind(), 2, RoundingMode.HALF_UP);
+		partidaBanco.setQuantidadeBigBlind(quantidade);
+		
 		return repository.save(partidaBanco);
 	}
 

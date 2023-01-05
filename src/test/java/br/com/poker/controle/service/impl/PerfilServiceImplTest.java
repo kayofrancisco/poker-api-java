@@ -3,6 +3,7 @@ package br.com.poker.controle.service.impl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.lenient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -53,6 +54,10 @@ public class PerfilServiceImplTest {
 	}
 
 	private static List<Perfil> retornarListaPerfis() {
-		return List.of(perfil1, perfil2);
+		List<Perfil> perfisLista = new ArrayList<Perfil>();
+		perfisLista.add(perfil1);
+		perfisLista.add(perfil2);
+		
+		return perfisLista;
 	}
 }

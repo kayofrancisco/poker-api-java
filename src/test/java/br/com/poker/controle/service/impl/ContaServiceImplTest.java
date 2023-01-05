@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.lenient;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,10 +23,13 @@ import br.com.poker.controle.exceptions.NegocioException;
 import br.com.poker.controle.models.Conta;
 import br.com.poker.controle.models.Usuario;
 import br.com.poker.controle.repository.ContaRepository;
+import br.com.poker.controle.service.UsuarioService;
 
 @ExtendWith(MockitoExtension.class)
 public class ContaServiceImplTest {
 	static ContaServiceImpl service;
+	static UsuarioService usuarioService;
+	
 	static ContaRepository repository;
 	
 	static Usuario usuario;
@@ -36,9 +40,11 @@ public class ContaServiceImplTest {
 	@BeforeAll
 	static void setup() {
 		repository = Mockito.mock(ContaRepository.class);
+		usuarioService = Mockito.mock(UsuarioService.class);
 
 		service = new ContaServiceImpl();
 		service.setRepository(repository);
+		service.setUsuarioService(usuarioService);
 		
 		usuario = retornarUsuario();
 		
@@ -46,6 +52,7 @@ public class ContaServiceImplTest {
 		conta2 = retornarConta2();
 		contas = retonarListaContas();
 		
+		lenient().when(usuarioService.recuperaUsuarioLogado()).thenReturn(usuario);
 		lenient().when(service.buscar()).thenReturn(contas);
 		lenient().when(repository.findByNick(conta1.getNick())).thenReturn(Optional.of(conta1));
 		lenient().when(service.buscarPorId(conta1.getId())).thenReturn(Optional.of(conta1));
@@ -217,6 +224,10 @@ public class ContaServiceImplTest {
 	}
 	
 	private static List<Conta> retonarListaContas() {
-		return List.of(conta1, conta2);
+		List<Conta> contasLista = new ArrayList<Conta>();
+		contasLista.add(conta1);
+		contasLista.add(conta2);
+		
+		return contasLista;
 	}
 }

@@ -1,5 +1,6 @@
 package br.com.poker.controle.models;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -19,42 +20,34 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "contas", schema = "poker")
-public class Conta {
+@Table(name = "rakes", schema = "poker")
+public class Rake {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
-
-	@Column(name = "nick")
-	private String nick;
 	
-	@Column(name = "ativo")
-	private Boolean ativo;
-	
-	@Column(name = "plataforma")
-	private String plataforma;
+	@Column(name = "valor")
+	private BigDecimal valor;
 
 	@Column(name = "criado_em")
 	@JsonFormat(pattern =  UtilData.PATTERN_DATA)
 	private LocalDateTime criadoEm;
 	
 	@ManyToOne
-    @JoinColumn(name="usuario_id")
-    private Usuario usuario;
+    @JoinColumn(name="conta_id")
+    private Conta conta;
 
 	@PrePersist
 	public void prePersist() {
 		setCriadoEm(LocalDateTime.now());
-		setAtivo(Boolean.TRUE);
 	}
 	
-	public Conta() {}
+	public Rake() {}
 
-	public Conta(Integer id, String nick, Usuario usuario) {
+	public Rake(Integer id, String nome, LocalDateTime criadoEm, LocalDateTime ultimaAtualizacao) {
 		super();
 		this.id = id;
-		this.nick = nick;
-		this.usuario = usuario;
+		this.criadoEm = criadoEm;
 	}
 }

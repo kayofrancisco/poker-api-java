@@ -25,4 +25,8 @@ public abstract class AlertasPartida {
 	public static String alertaDataCriacaoNulo() {
 		return "A data da partida deve ser informada";
 	}
+	
+	public static String alertaFichasIniciaisNulo() {
+		return "A quantidade de fichas iniciais deve ser informada";
+	}
 }

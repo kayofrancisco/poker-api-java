@@ -1,5 +1,6 @@
 package br.com.poker.controle.models;
 
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -15,7 +16,9 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.com.poker.controle.exceptions.NegocioException;
 import br.com.poker.controle.utils.UtilData;
+import br.com.poker.controle.utils.Utils;
 import lombok.Data;
 
 @Entity
@@ -52,11 +55,12 @@ public class Usuario {
     private Perfil perfil;
 	
 	@PrePersist
-	public void prePersist() {
+	public void prePersist() throws NegocioException, NoSuchAlgorithmException {
 		setUltimaAtualizacao(LocalDateTime.now());
 		setCriadoEm(LocalDateTime.now());
 		setAtivo(Boolean.TRUE);
 		setPerfil(Perfil.perfilComum());
+		setSenha(Utils.encodeSenha(getSenha()));
 	}
 	
 	@PreUpdate

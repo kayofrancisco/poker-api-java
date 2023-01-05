@@ -10,6 +10,10 @@ public abstract class AlertasConta {
 		return "O usuário da conta deve ser informado";
 	}
 	
+	public static String alertaPlataformaNula() {
+		return "A plataforma da conta deve ser informada";
+	}
+	
 	public static String alertaNickExistente() {
 		return "Este nick já está em uso por outro usuário";
 	}

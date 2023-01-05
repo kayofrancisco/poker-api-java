@@ -6,9 +6,9 @@ import br.com.poker.controle.utils.validadores.regrascamposobrigatorios.RegrasCa
 
 public class ValidadorPartida extends Validador<Partida> {
 
-	public ValidadorPartida(Partida objetoParaValidar) {
+	public ValidadorPartida(Partida objetoParaValidar, Boolean validaValores) {
 		super(objetoParaValidar);
-		adicionarRegra(new RegrasCamposObrigatoriosPartida());
+		adicionarRegra(new RegrasCamposObrigatoriosPartida(validaValores));
 	}
 
 }

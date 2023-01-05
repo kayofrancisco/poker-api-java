@@ -1,15 +1,11 @@
 package br.com.poker.controle.utils;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.Normalizer;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.com.caelum.stella.validation.CPFValidator;
 
@@ -38,15 +34,15 @@ public class Utils {
 		}
 	}
 
-	public static String gerarHashParaSenha(String senha) throws NoSuchAlgorithmException {
-		return new BCryptPasswordEncoder().encode(senha);
+	public static String encodeSenha(String senha) throws NoSuchAlgorithmException {
+		byte[] bytes = Base64.getEncoder().encode(senha.getBytes());
+		return new String (bytes);
+	}
+
+	public static String decodeSenha(String senha) throws NoSuchAlgorithmException {
+		byte[] bytes = Base64.getDecoder().decode(senha);
 		
-		
-//		MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-//		messageDigest.update(byteArray);
-//		byte[] hash = messageDigest.digest();
-//
-//		return bytesToHex(hash);
+		return new String(bytes);
 	}
 
 	public static String bytesToHex(byte[] hash) {
@@ -61,7 +57,8 @@ public class Utils {
 	}
 
 	public static Boolean isNuloOuVazio(String string) {
-		return string == null || string.isBlank();
+		return string == null;
+//		return string == null || string.isBlank();
 	}
 
 	public static String removerTodosOsCaracteresNaoNumericos(String s) {
@@ -77,10 +74,10 @@ public class Utils {
 		}
 		return Optional.of(removerTodosOsCaracteresNaoNumericos(removerCaracteresEspeciais(s)).replaceAll("[.]", ""));
 	}
-	
+
 	public static String removerCaracteresEspeciais(String string) {
-        string = Normalizer.normalize(string, Normalizer.Form.NFD);
-        string = string.replaceAll("[^\\p{ASCII}]", "");
-        return string;
-    }
+		string = Normalizer.normalize(string, Normalizer.Form.NFD);
+		string = string.replaceAll("[^\\p{ASCII}]", "");
+		return string;
+	}
 }

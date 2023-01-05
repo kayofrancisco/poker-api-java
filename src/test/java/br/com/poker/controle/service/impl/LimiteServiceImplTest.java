@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.lenient;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -54,6 +55,10 @@ public class LimiteServiceImplTest {
 	}
 
 	private static List<Limite> retornarListaPerfis() {
-		return List.of(limite1, limite2);
+		List<Limite> limitesLista = new ArrayList<Limite>();
+		limitesLista.add(limite1);
+		limitesLista.add(limite2);
+		
+		return limitesLista;
 	}
 }
