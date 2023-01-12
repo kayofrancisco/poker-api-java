@@ -2,6 +2,7 @@ package br.com.poker.controle.service.impl;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,23 +10,35 @@ import org.springframework.stereotype.Service;
 
 import br.com.poker.controle.exceptions.NegocioException;
 import br.com.poker.controle.models.Partida;
+import br.com.poker.controle.models.Usuario;
 import br.com.poker.controle.repository.PartidaRepository;
 import br.com.poker.controle.service.PartidaService;
+import br.com.poker.controle.service.UsuarioService;
 import br.com.poker.controle.utils.validadores.teste.ValidadorPartida;
 
 @Service("PartidaService")
 public class PartidaServiceImpl implements PartidaService {
 
 	private PartidaRepository repository;
+	private UsuarioService usuarioService;
 
 	@Autowired
 	protected void setRepository(PartidaRepository repository) {
 		this.repository = repository;
 	}
+	
+	@Autowired
+	protected void setUsuarioService(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
 
 	@Override
 	public List<Partida> buscar() {
-		return repository.findAll();
+		Usuario usuario = usuarioService.recuperaUsuarioLogado();
+		
+		List<Partida> partidas = repository.findByContaUsuarioIdOrderByDataInicioDesc(usuario.getId());
+		
+		return partidas;
 	}
 
 	@Override
@@ -67,11 +80,18 @@ public class PartidaServiceImpl implements PartidaService {
 		BigDecimal quantidade = partida.getValor().divide(partida.getLimite().getBigBlind(), 2, RoundingMode.HALF_UP);
 		partidaBanco.setQuantidadeBigBlind(quantidade);
 		
+//		return partidaBanco;
 		return repository.save(partidaBanco);
 	}
 
 	@Override
 	public void excluir(Integer id) throws NegocioException {
 		this.repository.deleteById(id);
+	}
+
+	@Override
+	public List<Partida> buscarPorIntervaloData(LocalDateTime dataMinima, LocalDateTime dataMaxima) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
