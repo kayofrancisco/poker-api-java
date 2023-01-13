@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import br.com.poker.controle.models.Partida;
@@ -33,10 +34,10 @@ public class GraficoServiceImpl implements GraficoService {
 
 	@Override
 	public GraficoDTO buscarDadosPartidas() {
-		List<Partida> partidas = partidaService.buscar();
+		Page<Partida> partidas = partidaService.buscar(0, 25, Boolean.FALSE);
 		
-		List<LocalDateTime> labels = partidas.stream().map(Partida::getDataInicio).collect(Collectors.toList());
-		List<BigDecimal> dados = partidas.stream().map(Partida::getValor).collect(Collectors.toList());
+		List<LocalDateTime> labels = partidas.getContent().stream().map(Partida::getDataInicio).collect(Collectors.toList());
+		List<BigDecimal> dados = partidas.getContent().stream().map(Partida::getValor).collect(Collectors.toList());
 		
 		GraficoDTO dto = new GraficoDTO();
 		dto.setLabels(labels);

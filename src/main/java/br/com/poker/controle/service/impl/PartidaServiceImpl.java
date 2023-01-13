@@ -6,6 +6,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.poker.controle.exceptions.NegocioException;
@@ -33,10 +37,16 @@ public class PartidaServiceImpl implements PartidaService {
 	}
 
 	@Override
-	public List<Partida> buscar() {
+	public Page<Partida> buscar(Integer page, Integer size, Boolean buscaTotal) {
 		Usuario usuario = usuarioService.recuperaUsuarioLogado();
 		
-		List<Partida> partidas = repository.findByContaUsuarioIdOrderByDataInicioDesc(usuario.getId());
+		Integer pagina = (buscaTotal != null && buscaTotal == Boolean.TRUE) ? 0 : page;
+		Integer tamanho = (buscaTotal != null && buscaTotal == Boolean.TRUE) ? Integer.MAX_VALUE : size;
+		
+		Pageable pageable = PageRequest.of(pagina, tamanho, Sort.by("dataInicio").descending());
+		
+		
+		Page<Partida> partidas = repository.findByContaUsuarioId(usuario.getId(), pageable);
 		
 		return partidas;
 	}
