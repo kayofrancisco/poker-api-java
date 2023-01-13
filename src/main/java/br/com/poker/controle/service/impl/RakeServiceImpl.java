@@ -42,7 +42,7 @@ public class RakeServiceImpl implements RakeService {
 	public List<Rake> buscar() {
 		Usuario usuario = usuarioService.recuperaUsuarioLogado();
 		
-		return repository.findByContaUsuarioId(usuario.getId());
+		return repository.findByContaUsuarioIdOrderByCriadoEmDesc(usuario.getId());
 	}
 
 	@Override

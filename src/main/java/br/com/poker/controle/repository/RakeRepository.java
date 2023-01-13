@@ -9,5 +9,5 @@ import br.com.poker.controle.models.Rake;
 
 public interface RakeRepository extends JpaRepository<Rake, Integer> {
 	List<Rake> findByConta(Conta conta);
-	List<Rake> findByContaUsuarioId(Integer idUsuario);
+	List<Rake> findByContaUsuarioIdOrderByCriadoEmDesc(Integer idUsuario);
 }
