@@ -2,7 +2,6 @@ package br.com.poker.controle.utils.validadores.regrascamposobrigatorios;
 import static br.com.poker.controle.utils.Utils.isNuloOuVazio;
 import static br.com.poker.controle.utils.validadores.alertas.AlertasConta.alertaNickNuloOuVazio;
 import static br.com.poker.controle.utils.validadores.alertas.AlertasConta.alertaUsuarioNulo;
-import static br.com.poker.controle.utils.validadores.alertas.AlertasConta.alertaPlataformaNula;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,6 @@ public class RegrasCamposObrigatoriosConta implements RegrasValidador<Conta> {
 		if (isNuloOuVazio(conta.getNick())) {
 			erros.add(alertaNickNuloOuVazio());
 		}
-		
 
 		if (conta.getUsuario() == null || conta.getUsuario().getId() == null) {
 			erros.add(alertaUsuarioNulo());
