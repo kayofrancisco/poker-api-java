@@ -57,14 +57,14 @@ public class Partida {
 	private Limite limite;
 
 	@ManyToOne
-	@JoinColumn(name = "conta_id")
-	private Conta conta;
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
 
 	public Partida() {
 	}
 
 	public Partida(Integer id, BigDecimal valor, BigDecimal quantidadeBigBlind, Integer quantidadeMaosInicio, Integer quantidadeMaosFim,
-			LocalDateTime dataInicio, LocalDateTime dataFim, Limite limite, Conta conta) {
+			LocalDateTime dataInicio, LocalDateTime dataFim, Limite limite, Usuario usuario) {
 		super();
 		this.id = id;
 		this.valor = valor;
@@ -74,7 +74,7 @@ public class Partida {
 		this.dataInicio = dataInicio;
 		this.dataFim = dataFim;
 		this.limite = limite;
-		this.conta = conta;
+		this.usuario = usuario;
 	}
 
 }

@@ -1,5 +1,4 @@
 package br.com.poker.controle.utils.validadores.regrascamposobrigatorios;
-import static br.com.poker.controle.utils.validadores.alertas.AlertasPartida.alertaContaNulo;
 import static br.com.poker.controle.utils.validadores.alertas.AlertasPartida.alertaDataCriacaoNulo;
 import static br.com.poker.controle.utils.validadores.alertas.AlertasPartida.alertaFichasIniciaisNulo;
 import static br.com.poker.controle.utils.validadores.alertas.AlertasPartida.alertaLimiteNulo;
@@ -30,10 +29,6 @@ public class RegrasCamposObrigatoriosPartida implements RegrasValidador<Partida>
 		
 		if (partida.getFichasIniciais() == null || partida.getFichasIniciais().compareTo(BigDecimal.ZERO) < 1) {
 			erros.add(alertaFichasIniciaisNulo());
-		}
-		
-		if (partida.getConta() == null || partida.getConta().getId() == null) {
-			erros.add(alertaContaNulo());
 		}
 		
 		if (partida.getLimite() == null || partida.getLimite().getId() == null) {

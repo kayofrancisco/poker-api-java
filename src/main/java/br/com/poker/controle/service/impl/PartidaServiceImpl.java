@@ -46,7 +46,7 @@ public class PartidaServiceImpl implements PartidaService {
 		Pageable pageable = PageRequest.of(pagina, tamanho, Sort.by("dataInicio").descending());
 		
 		
-		Page<Partida> partidas = repository.findByContaUsuarioId(usuario.getId(), pageable);
+		Page<Partida> partidas = repository.findByUsuarioId(usuario.getId(), pageable);
 		
 		return partidas;
 	}
@@ -58,6 +58,9 @@ public class PartidaServiceImpl implements PartidaService {
 		if (!validador.validar()) {
 			throw new NegocioException(validador.getErros());
 		}
+		
+		Usuario usuario = usuarioService.recuperaUsuarioLogado();
+		partida.setUsuario(usuario);
 
 		return repository.save(partida);
 	}
@@ -73,7 +76,9 @@ public class PartidaServiceImpl implements PartidaService {
 			throw new NegocioException(validador.getErros());
 		}
 
-		partidaBanco.setConta(partida.getConta());
+		Usuario usuario = usuarioService.recuperaUsuarioLogado();
+		partida.setUsuario(usuario);
+		
 		partidaBanco.setDataInicio(partida.getDataInicio());
 		partidaBanco.setDataFim(partida.getDataFim());
 		partidaBanco.setLimite(partida.getLimite());
