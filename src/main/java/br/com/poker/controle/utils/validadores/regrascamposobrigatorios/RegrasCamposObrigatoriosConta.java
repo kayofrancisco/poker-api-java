@@ -21,9 +21,6 @@ public class RegrasCamposObrigatoriosConta implements RegrasValidador<Conta> {
 			erros.add(alertaNickNuloOuVazio());
 		}
 		
-		if (isNuloOuVazio(conta.getPlataforma())) {
-			erros.add(alertaPlataformaNula());
-		}
 
 		if (conta.getUsuario() == null || conta.getUsuario().getId() == null) {
 			erros.add(alertaUsuarioNulo());
