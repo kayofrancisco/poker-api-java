@@ -2,6 +2,7 @@ package br.com.poker.controle.utils.validadores.regrasnegociais;
 
 import static br.com.poker.controle.utils.validadores.alertas.AlertasUsuario.alertaEmailInvalido;
 import static br.com.poker.controle.utils.validadores.alertas.AlertasUsuario.alertaUsuarioExistenteComEmail;
+import static br.com.poker.controle.utils.validadores.alertas.AlertasUsuario.alertaUsuarioComSenhasDiferentes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,10 @@ public class RegraNegocialUsuario implements RegrasValidador<Usuario> {
 			if (usuarioBanco != null) {
 				erros.add(alertaUsuarioExistenteComEmail());
 			}
+		}
+		
+		if (!usuario.getSenha().equals(usuario.getConfirmaSenha())) {
+			erros.add(alertaUsuarioComSenhasDiferentes());
 		}
 
 		if (erros.size() > 0) {

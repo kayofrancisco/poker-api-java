@@ -1,9 +1,12 @@
 package br.com.poker.controle.service.impl;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import br.com.poker.controle.exceptions.NegocioException;
 import br.com.poker.controle.models.Usuario;
 import br.com.poker.controle.repository.UsuarioRepository;
+import br.com.poker.controle.service.UsuarioJwtService;
 import br.com.poker.controle.service.UsuarioService;
 import br.com.poker.controle.utils.validadores.teste.ValidadorUsuario;
 
@@ -18,15 +22,27 @@ import br.com.poker.controle.utils.validadores.teste.ValidadorUsuario;
 public class UsuarioServiceImpl implements UsuarioService {
 
 	private UsuarioRepository repository;
+	private UsuarioJwtService usuarioJwtService;
 
 	@Autowired
 	private void setRepository(UsuarioRepository repository) {
 		this.repository = repository;
 	}
-
+	
+	@Autowired
+	private void setUsuarioJwtService(UsuarioJwtService usuarioJwtService) {
+		this.usuarioJwtService = usuarioJwtService;
+	}
+	
 	@Override
-	public List<Usuario> buscar() {
-		return repository.findAll();
+	public Page<Usuario> buscar(Integer page, Integer size) throws NegocioException {
+		if (!usuarioJwtService.usuarioLogadoisAdm()) {
+			throw new NegocioException("Você não tem permissão para esta ação");
+		}
+		
+		Pageable pageable = PageRequest.of(page, size, Sort.by("criadoEm").descending());
+		
+		return repository.findAll(pageable);
 	}
 
 	@Override
@@ -89,5 +105,21 @@ public class UsuarioServiceImpl implements UsuarioService {
 		
 		
 		return buscarPorEmail(email);
+	}
+
+	@Override
+	public Usuario editarPerfilEAtivo(Usuario usuario, Integer id) throws NegocioException {
+		if (!usuarioJwtService.usuarioLogadoisAdm()) {
+			throw new NegocioException("Você não tem permissão para esta ação");
+		}
+		
+		Usuario usuarioBanco = buscarPorId(id)
+				.orElseThrow(() -> new NegocioException("Usuário não encontrado para o id informado"));
+
+
+		usuarioBanco.setPerfil(usuario.getPerfil());
+		usuarioBanco.setAtivo(usuario.getAtivo());
+
+		return repository.save(usuarioBanco);
 	}
 }

@@ -11,7 +11,11 @@ public abstract class AlertasUsuario {
 	}
 	
 	public static String alertaSenhaNuloOuVazio() {
-		return "A senha do usuário deve ser informada";
+		return "A senha deve ser informada";
+	}
+	
+	public static String alertaConfirmacaoSenhaNuloOuVazio() {
+		return "A confirmação de senha  deve ser informada";
 	}
 	
 	public static String alertaUsuarioSemPerfil() {
@@ -24,5 +28,9 @@ public abstract class AlertasUsuario {
 	
 	public static String alertaUsuarioExistenteComEmail() {
 		return "Já existe usuário cadastrado com este email";
+	}
+	
+	public static String alertaUsuarioComSenhasDiferentes() {
+		return "A confirmação de senha deve ser igual a senha";
 	}
 }

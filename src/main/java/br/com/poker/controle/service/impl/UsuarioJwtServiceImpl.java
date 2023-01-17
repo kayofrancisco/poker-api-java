@@ -3,6 +3,8 @@ package br.com.poker.controle.service.impl;
 import java.security.NoSuchAlgorithmException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +19,7 @@ import br.com.poker.controle.utils.Utils;
 public class UsuarioJwtServiceImpl implements UsuarioJwtService {
 
 	private UsuarioService service;
+	private static final String SIGLA_ADM = "ADM";
 
 	@Autowired
 	private void setUsuarioService(UsuarioService service) {
@@ -38,6 +41,17 @@ public class UsuarioJwtServiceImpl implements UsuarioJwtService {
 			throw new UsernameNotFoundException("Erro ao buscar usuário");
 		}
 
+	}
+
+	@Override
+	public Boolean usuarioLogadoisAdm() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		String email =  auth.getName();
+		
+		Usuario usuario = service.buscarPorEmail(email);
+		
+		return usuario.getPerfil().getSigla().equals(SIGLA_ADM);
 	}
 
 }

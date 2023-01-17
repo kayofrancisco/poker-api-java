@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -38,6 +39,9 @@ public class Usuario {
 	
 	@Column(name = "senha")
 	private String senha;
+
+	@Transient
+	private String confirmaSenha;
 	
 	@Column(name = "ativo")
 	private Boolean ativo;
@@ -58,7 +62,7 @@ public class Usuario {
 	public void prePersist() throws NegocioException, NoSuchAlgorithmException {
 		setUltimaAtualizacao(LocalDateTime.now());
 		setCriadoEm(LocalDateTime.now());
-		setAtivo(Boolean.TRUE);
+		setAtivo(Boolean.FALSE);
 		setPerfil(Perfil.perfilComum());
 		setSenha(Utils.encodeSenha(getSenha()));
 	}
