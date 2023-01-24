@@ -11,7 +11,7 @@
 	<groupId>br.com.poker</groupId>
 	<artifactId>controle</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>controle</name>
 	<description>Projeto para controle de ganhos e perdas do poker</description>
 	<properties>
