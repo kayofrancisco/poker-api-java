@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.poker.controle.models.Rake;
@@ -39,15 +39,6 @@ public class RakeController {
 		}
 	}
 
-	@GetMapping("/buscar-por-conta")
-	public ResponseEntity<ContentDTO<List<Rake>>> buscarPorConta(@RequestParam("id-conta") Integer idConta) {
-		try {
-			return ResponseUtils.sucesso(service.buscarPorConta(idConta));
-		} catch (Exception e) {
-			return ResponseUtils.falha(e);
-		}
-	}
-
 	@PostMapping
 	public ResponseEntity<ContentDTO<Rake>> cadastrar(@RequestBody Rake Rake) {
 		try {
@@ -57,14 +48,14 @@ public class RakeController {
 		}
 	}
 
-//	@PutMapping("/{id}")
-//	public ResponseEntity<ContentDTO<Rake>> editar(@RequestBody Rake Rake, @PathVariable("id") Integer id) {
-//		try {
-//			return ResponseUtils.sucesso(service.editar(Rake, id));
-//		} catch (Exception e) {
-//			return ResponseUtils.falha(e);
-//		}
-//	}
+	@PutMapping("/{id}")
+	public ResponseEntity<ContentDTO<Rake>> editar(@RequestBody Rake Rake, @PathVariable("id") Integer id) {
+		try {
+			return ResponseUtils.sucesso(service.editar(Rake, id));
+		} catch (Exception e) {
+			return ResponseUtils.falha(e);
+		}
+	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ContentDTO<Integer>> deletar(@PathVariable("id") Integer id) {

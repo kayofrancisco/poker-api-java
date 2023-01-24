@@ -36,7 +36,7 @@ public class UsuarioJwtServiceImpl implements UsuarioJwtService {
 
 		try {
 			String senha = Utils.decodeSenha(usuario.getSenha());
-			return User.builder().username(usuario.getEmail()).password(senha).roles("USER").build();
+			return User.builder().username(usuario.getEmail()).password(senha).roles(usuarioLogadoIsAdm(usuario) ? SIGLA_ADM : "USER").build();
 		} catch (NoSuchAlgorithmException e) {
 			throw new UsernameNotFoundException("Erro ao buscar usuário");
 		}
@@ -51,6 +51,10 @@ public class UsuarioJwtServiceImpl implements UsuarioJwtService {
 		
 		Usuario usuario = service.buscarPorEmail(email);
 		
+		return usuarioLogadoIsAdm(usuario);
+	}
+	
+	private Boolean usuarioLogadoIsAdm(Usuario usuario) {
 		return usuario.getPerfil().getSigla().equals(SIGLA_ADM);
 	}
 

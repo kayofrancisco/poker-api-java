@@ -35,10 +35,6 @@ public class Rake {
 	private LocalDateTime criadoEm;
 	
 	@ManyToOne
-    @JoinColumn(name="conta_id")
-    private Conta conta;
-	
-	@ManyToOne
     @JoinColumn(name="clube_id")
     private Clube clube;
 

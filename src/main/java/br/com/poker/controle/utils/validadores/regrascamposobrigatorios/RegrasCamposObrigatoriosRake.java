@@ -13,12 +13,12 @@ public class RegrasCamposObrigatoriosRake implements RegrasValidador<Rake> {
 	public void validar(Rake rake) throws NegocioException {
 		List<String> erros = new ArrayList<>();
 		
-		if (rake.getConta() == null || rake.getConta().getId() == null) {
-			erros.add("A conta deve ser informada");
-		}
-		
 		if (rake.getValor() == null || rake.getValor().compareTo(BigDecimal.ZERO) <= 0) {
 			erros.add("O valor do rake deve ser informado");
+		}
+		
+		if (rake.getClube() == null || rake.getClube().getId() == null) {
+			erros.add("O clube deve ser informado");
 		}
 
 		if (erros.size() > 0) {

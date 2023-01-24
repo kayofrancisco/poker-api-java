@@ -38,6 +38,9 @@ public class Partida {
 	@Column(name = "quantidade_maos_fim")
 	private Integer quantidadeMaosFim;
 	
+	@Column(name = "online")
+	private Boolean online;
+	
 	@Column(name = "fichas_iniciais")
 	private BigDecimal fichasIniciais;
 	

@@ -9,7 +9,6 @@ import br.com.poker.controle.models.Rake;
 public interface RakeService {
 	List<Rake> buscar();
 	Optional<Rake> buscarPorId(Integer id);
-	List<Rake> buscarPorConta(Integer idConta) throws NegocioException;
 	Rake cadastrar(Rake rake) throws NegocioException;
 	Rake editar(Rake rake, Integer id) throws NegocioException;
 	void deletar(Integer id);
