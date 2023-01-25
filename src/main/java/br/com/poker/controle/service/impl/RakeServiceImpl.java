@@ -73,6 +73,7 @@ public class RakeServiceImpl implements RakeService {
 		
 		rakeBanco.setValor(rake.getValor());
 		rakeBanco.setClube(rake.getClube());
+		rakeBanco.setCriadoEm(rake.getCriadoEm());
 
 		return repository.save(rake);
 	}
