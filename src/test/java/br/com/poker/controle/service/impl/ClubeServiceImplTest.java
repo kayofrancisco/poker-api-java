@@ -20,13 +20,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.poker.controle.exceptions.NegocioException;
 import br.com.poker.controle.models.Clube;
+import br.com.poker.controle.models.Usuario;
 import br.com.poker.controle.repository.ClubeRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class ClubeServiceImplTest {
 	static ClubeServiceImpl clubeService;
+	static UsuarioServiceImpl usuarioService;
 	static ClubeRepository clubeRepositoryMock;
 
+	static Usuario usuario;
 	static Clube clube1;
 	static Clube clube2;
 	static Clube clube3;
@@ -35,15 +38,19 @@ public class ClubeServiceImplTest {
 	@BeforeAll
 	static void setup() {
 		clubeRepositoryMock = Mockito.mock(ClubeRepository.class);
-
+		usuarioService = Mockito.mock(UsuarioServiceImpl.class);
+		
 		clubeService = new ClubeServiceImpl();
 		clubeService.setRepository(clubeRepositoryMock);
+		clubeService.setUsuarioService(usuarioService);
 
+		usuario = retornarUsuario();
 		clube1 = retornarClube1();
 		clube2 = retornarClube2();
 		clube3 = retornarClube3();
 		clubes = retornarListaClubes();
 
+		lenient().when(usuarioService.recuperaUsuarioLogado()).thenReturn(usuario);
 		lenient().when(clubeService.buscar()).thenReturn(clubes);
 		lenient().when(clubeService.buscarPorId(1)).thenReturn(Optional.of(clube1));
 		lenient().when(clubeService.buscarPorId(2)).thenReturn(Optional.of(clube2));
@@ -126,22 +133,34 @@ public class ClubeServiceImplTest {
 		}
 	}
 
+	private static Usuario retornarUsuario() {
+		Usuario usuario1 = new Usuario();
+		
+		usuario1.setId(1);
+		usuario1.setAtivo(Boolean.TRUE);
+		usuario1.setCriadoEm(LocalDateTime.now());
+		usuario1.setEmail("teste@email.com");
+		usuario1.setNome("nome teste");
+		
+		return usuario1;
+	}
+	
 	private static Clube retornarClube1() {
 		LocalDateTime dataAgora = LocalDateTime.now();
 
-		return new Clube(1, "Clube 1", dataAgora, dataAgora);
+		return new Clube(1, "Clube 1", usuario, dataAgora, dataAgora);
 	}
 
 	private static Clube retornarClube2() {
 		LocalDateTime dataAgora = LocalDateTime.now();
 
-		return new Clube(2, "Clube 2", dataAgora, dataAgora);
+		return new Clube(2, "Clube 2", usuario, dataAgora, dataAgora);
 	}
 
 	private static Clube retornarClube3() {
 		LocalDateTime dataAgora = LocalDateTime.now();
 
-		return new Clube(3, "Clube 3", dataAgora, dataAgora);
+		return new Clube(3, "Clube 3", usuario, dataAgora, dataAgora);
 	}
 
 	private static List<Clube> retornarListaClubes() {
