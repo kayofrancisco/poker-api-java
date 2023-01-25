@@ -22,7 +22,7 @@ public class RakeServiceImpl implements RakeService {
 	private RakeRepository repository;
 	private ContaService contaService;
 	private UsuarioService usuarioService;
-	
+
 	@Autowired
 	protected void setRepository(RakeRepository repository) {
 		this.repository = repository;
@@ -32,7 +32,7 @@ public class RakeServiceImpl implements RakeService {
 	protected void setContaService(ContaService service) {
 		this.contaService = service;
 	}
-	
+
 	@Autowired
 	protected void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
@@ -41,20 +41,13 @@ public class RakeServiceImpl implements RakeService {
 	@Override
 	public List<Rake> buscar() {
 		Usuario usuario = usuarioService.recuperaUsuarioLogado();
-		
-		return repository.findByContaUsuarioIdOrderByCriadoEmDesc(usuario.getId());
+
+		return repository.findByClubeUsuarioIdOrderByCriadoEmDesc(usuario.getId());
 	}
 
 	@Override
 	public Optional<Rake> buscarPorId(Integer id) {
 		return repository.findById(id);
-	}
-
-	@Override
-	public List<Rake> buscarPorConta(Integer idConta) throws NegocioException {
-		Conta conta = contaService.buscarPorId(idConta).orElseThrow(() -> new NegocioException("Conta não encontrada"));
-
-		return repository.findByConta(conta);
 	}
 
 	@Override
@@ -70,8 +63,18 @@ public class RakeServiceImpl implements RakeService {
 
 	@Override
 	public Rake editar(Rake rake, Integer id) throws NegocioException {
-		// TODO Auto-generated method stub
-		return null;
+		Rake rakeBanco = buscarPorId(id).orElseThrow(() -> new NegocioException("Rake não encontrado"));
+		
+		ValidadorRake validador = new ValidadorRake(rake);
+
+		if (!validador.validar()) {
+			throw new NegocioException(validador.getErros());
+		}
+		
+		rakeBanco.setValor(rake.getValor());
+		rakeBanco.setClube(rake.getClube());
+
+		return repository.save(rake);
 	}
 
 	@Override

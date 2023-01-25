@@ -8,23 +8,33 @@ import org.springframework.stereotype.Service;
 
 import br.com.poker.controle.exceptions.NegocioException;
 import br.com.poker.controle.models.Clube;
+import br.com.poker.controle.models.Usuario;
 import br.com.poker.controle.repository.ClubeRepository;
 import br.com.poker.controle.service.ClubeService;
+import br.com.poker.controle.service.UsuarioService;
 import br.com.poker.controle.utils.validadores.teste.ValidadorClube;
 
 @Service("ClubeService")
 public class ClubeServiceImpl implements ClubeService {
 
 	private ClubeRepository repository;
+	private UsuarioService usuarioService;
 
 	@Autowired
 	protected void setRepository(ClubeRepository repository) {
 		this.repository = repository;
 	}
 
+	@Autowired
+	protected void setUsuarioService(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+
 	@Override
 	public List<Clube> buscar() {
-		return repository.findAll();
+		Usuario usuario = usuarioService.recuperaUsuarioLogado();
+		
+		return repository.findByUsuarioId(usuario.getId());
 	}
 
 	@Override
@@ -34,6 +44,10 @@ public class ClubeServiceImpl implements ClubeService {
 		if (!validador.validar()) {
 			throw new NegocioException(validador.getErros());
 		}
+		
+		Usuario usuario = usuarioService.recuperaUsuarioLogado();
+		
+		clube.setUsuario(usuario);
 
 		return repository.save(clube);
 	}
