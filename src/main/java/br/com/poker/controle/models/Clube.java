@@ -55,10 +55,11 @@ public class Clube {
 	
 	public Clube() {}
 
-	public Clube(Integer id, String nome, LocalDateTime criadoEm, LocalDateTime ultimaAtualizacao) {
+	public Clube(Integer id, String nome, Usuario usuario, LocalDateTime criadoEm, LocalDateTime ultimaAtualizacao) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.usuario = usuario;
 		this.criadoEm = criadoEm;
 		this.ultimaAtualizacao = ultimaAtualizacao;
 	}
