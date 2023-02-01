@@ -22,6 +22,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Value("${security.jwt.signing-key}")
 	private String signingKey;
+	
+	@Value("${security.jwt.client}")
+	private String client;
+	
+	@Value("${security.jwt.secret}")
+	private String secret;
 
 	@Bean
 	public TokenStore tokenStore() {
@@ -45,7 +51,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient("application-angular").secret("@321").scopes("read", "write")
+		clients.inMemory().withClient(client).secret(secret).scopes("read", "write")
 				.authorizedGrantTypes("password").accessTokenValiditySeconds(1800);
 	}
 
