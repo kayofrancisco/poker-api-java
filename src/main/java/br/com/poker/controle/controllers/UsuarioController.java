@@ -20,7 +20,7 @@ import br.com.poker.controle.service.UsuarioService;
 import br.com.poker.controle.utils.ResponseUtils;
 
 @RestController
-@RequestMapping(value = "/usuarios", produces = "application/json")
+@RequestMapping(value = "/api/usuarios", produces = "application/json")
 @CrossOrigin("*")
 public class UsuarioController {
 

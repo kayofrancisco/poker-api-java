@@ -19,7 +19,7 @@ import br.com.poker.controle.service.ClubeService;
 import br.com.poker.controle.utils.ResponseUtils;
 
 @RestController
-@RequestMapping(value = "/clubes", produces = "application/json")
+@RequestMapping(value = "/api/clubes", produces = "application/json")
 public class ClubeController {
 
 	private ClubeService service;

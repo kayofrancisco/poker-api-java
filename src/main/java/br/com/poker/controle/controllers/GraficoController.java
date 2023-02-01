@@ -12,7 +12,7 @@ import br.com.poker.controle.service.GraficoService;
 import br.com.poker.controle.utils.ResponseUtils;
 
 @RestController
-@RequestMapping(value = "/graficos", produces = "application/json")
+@RequestMapping(value = "/api/graficos", produces = "application/json")
 public class GraficoController {
 
 	private GraficoService service;
