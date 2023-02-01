@@ -19,7 +19,7 @@ import br.com.poker.controle.service.PartidaService;
 import br.com.poker.controle.utils.ResponseUtils;
 
 @RestController
-@RequestMapping(value = "/api/partidas", produces = "application/json")
+@RequestMapping(value = "/partidas", produces = "application/json")
 public class PartidaController {
 
 	private PartidaService service;

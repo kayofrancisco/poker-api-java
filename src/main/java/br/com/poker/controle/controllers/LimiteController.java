@@ -14,7 +14,7 @@ import br.com.poker.controle.service.LimiteService;
 import br.com.poker.controle.utils.ResponseUtils;
 
 @RestController
-@RequestMapping(value = "/api/limites", produces = "application/json")
+@RequestMapping(value = "/limites", produces = "application/json")
 public class LimiteController {
 
 	private LimiteService service;

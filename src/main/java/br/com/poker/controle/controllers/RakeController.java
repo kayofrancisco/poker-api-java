@@ -19,7 +19,7 @@ import br.com.poker.controle.service.RakeService;
 import br.com.poker.controle.utils.ResponseUtils;
 
 @RestController
-@RequestMapping(value = "/api/rakes", produces = "application/json")
+@RequestMapping(value = "/rakes", produces = "application/json")
 public class RakeController {
 
 	private RakeService service;

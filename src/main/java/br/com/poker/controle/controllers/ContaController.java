@@ -21,7 +21,7 @@ import br.com.poker.controle.service.ContaService;
 import br.com.poker.controle.utils.ResponseUtils;
 
 @RestController
-@RequestMapping(value = "/api/contas", produces = "application/json")
+@RequestMapping(value = "/contas", produces = "application/json")
 @CrossOrigin("*")
 public class ContaController {
 

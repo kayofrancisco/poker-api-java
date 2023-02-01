@@ -15,7 +15,7 @@ import br.com.poker.controle.service.PerfilService;
 import br.com.poker.controle.utils.ResponseUtils;
 
 @RestController
-@RequestMapping(value = "/api/perfis", produces = "application/json")
+@RequestMapping(value = "/perfis", produces = "application/json")
 @CrossOrigin("*")
 public class PerfilController {
 
