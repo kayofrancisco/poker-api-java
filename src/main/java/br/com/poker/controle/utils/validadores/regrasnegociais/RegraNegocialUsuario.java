@@ -17,8 +17,7 @@ public class RegraNegocialUsuario implements RegrasValidador<Usuario> {
 	private UsuarioRepository usuarioRepository;
 	private Boolean validaEmailNoBanco;
 
-	public RegraNegocialUsuario(UsuarioRepository usuarioRepository,
-			Boolean validaEmailNoBanco) {
+	public RegraNegocialUsuario(UsuarioRepository usuarioRepository, Boolean validaEmailNoBanco) {
 		this.usuarioRepository = usuarioRepository;
 		this.validaEmailNoBanco = validaEmailNoBanco;
 	}
@@ -29,16 +28,16 @@ public class RegraNegocialUsuario implements RegrasValidador<Usuario> {
 
 		Usuario usuarioBanco = usuarioRepository.findByEmail(usuario.getEmail()).orElse(null);
 
+		if (usuarioBanco != null) {
+			if (validaEmailNoBanco) {
+				erros.add(alertaUsuarioExistenteComEmail());
+			}
+		}
+
 		if (!Utils.emailValido(usuario.getEmail())) {
 			erros.add(alertaEmailInvalido());
 		}
 
-		if (validaEmailNoBanco) {
-			if (usuarioBanco != null) {
-				erros.add(alertaUsuarioExistenteComEmail());
-			}
-		}
-		
 		if (!usuario.getSenha().equals(usuario.getConfirmaSenha())) {
 			erros.add(alertaUsuarioComSenhasDiferentes());
 		}
