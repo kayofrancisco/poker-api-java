@@ -23,7 +23,7 @@ public class RegrasCamposObrigatoriosPartida implements RegrasValidador<Partida>
 	public void validar(Partida partida) throws NegocioException {
 		List<String> erros = new ArrayList<>();
 
-		if (partida.getQuantidadeMaosInicio() == null || partida.getQuantidadeMaosInicio() <= 0) {
+		if (partida.getQuantidadeMaosInicio() == null || partida.getQuantidadeMaosInicio() < 0) {
 			erros.add(alertaQuantidadeMaosNuloOuMenorQueZero());
 		}
 		

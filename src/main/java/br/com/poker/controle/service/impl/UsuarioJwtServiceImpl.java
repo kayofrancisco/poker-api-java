@@ -8,8 +8,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.common.exceptions.UserDeniedAuthorizationException;
 import org.springframework.stereotype.Service;
 
+import br.com.poker.controle.exceptions.NegocioException;
 import br.com.poker.controle.models.Usuario;
 import br.com.poker.controle.service.UsuarioJwtService;
 import br.com.poker.controle.service.UsuarioService;
@@ -32,6 +34,10 @@ public class UsuarioJwtServiceImpl implements UsuarioJwtService {
 
 		if (usuario == null) {
 			throw new UsernameNotFoundException("Login não encontrado");
+		}
+		
+		if (!usuario.getAtivo()) {
+			throw new UserDeniedAuthorizationException("Você deve aguardar sua ativação para realizar login");
 		}
 
 		try {
