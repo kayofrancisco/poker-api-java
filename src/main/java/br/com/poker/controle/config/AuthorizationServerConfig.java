@@ -29,6 +29,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Value("${security.jwt.secret}")
 	private String secret;
 
+	@Value("${security.jwt.client}")
+	private String client;
+
+	@Value("${security.jwt.secret}")
+	private String secret;
+
 	@Bean
 	public TokenStore tokenStore() {
 		return new JwtTokenStore(jwtToken());
@@ -44,8 +50,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		endpoints.tokenStore(tokenStore())
-			.accessTokenConverter(jwtToken())
+		endpoints.tokenStore(tokenStore()).accessTokenConverter(jwtToken())
 				.authenticationManager(authenticationManager);
 	}
 

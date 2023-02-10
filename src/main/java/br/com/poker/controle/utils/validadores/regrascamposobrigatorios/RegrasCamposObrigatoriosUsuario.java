@@ -31,6 +31,10 @@ public class RegrasCamposObrigatoriosUsuario implements RegrasValidador<Usuario>
 		if (isNuloOuVazio(usuario.getConfirmaSenha())) {
 			erros.add(alertaConfirmacaoSenhaNuloOuVazio());
 		}
+
+		if (usuario.getPerfil() == null || usuario.getPerfil().getId() == null) {
+			erros.add(alertaUsuarioSemPerfil());
+		}
 		
 		if (erros.size() > 0) {
 			throw new NegocioException(erros);

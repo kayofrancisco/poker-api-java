@@ -25,23 +25,23 @@ public class UsuarioServiceImpl implements UsuarioService {
 	private UsuarioJwtService usuarioJwtService;
 
 	@Autowired
-	private void setRepository(UsuarioRepository repository) {
+	protected void setRepository(UsuarioRepository repository) {
 		this.repository = repository;
 	}
-	
+
 	@Autowired
-	private void setUsuarioJwtService(UsuarioJwtService usuarioJwtService) {
+	protected void setUsuarioJwtService(UsuarioJwtService usuarioJwtService) {
 		this.usuarioJwtService = usuarioJwtService;
 	}
-	
+
 	@Override
 	public Page<Usuario> buscar(Integer page, Integer size) throws NegocioException {
 		if (!usuarioJwtService.usuarioLogadoisAdm()) {
 			throw new NegocioException("Você não tem permissão para esta ação");
 		}
-		
+
 		Pageable pageable = PageRequest.of(page, size, Sort.by("criadoEm").descending());
-		
+
 		return repository.findAll(pageable);
 	}
 
@@ -61,16 +61,14 @@ public class UsuarioServiceImpl implements UsuarioService {
 		Usuario usuarioBanco = buscarPorId(id)
 				.orElseThrow(() -> new NegocioException("Usuário não encontrado para o id informado"));
 
-
 		Boolean validaEmailNoBanco = !usuarioBanco.getEmail().equals(usuario.getEmail());
-		
 
 		ValidadorUsuario validador = new ValidadorUsuario(usuario, repository, validaEmailNoBanco);
 
 		if (!validador.validar()) {
 			throw new NegocioException(validador.getErros());
 		}
-		
+
 		usuarioBanco.setEmail(usuario.getEmail());
 		usuarioBanco.setNome(usuario.getNome());
 
@@ -100,10 +98,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public Usuario recuperaUsuarioLogado() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
-		String email =  auth.getName();
-		
-		
+
+		String email = auth.getName();
+
 		return buscarPorEmail(email);
 	}
 
@@ -112,10 +109,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 		if (!usuarioJwtService.usuarioLogadoisAdm()) {
 			throw new NegocioException("Você não tem permissão para esta ação");
 		}
-		
+
 		Usuario usuarioBanco = buscarPorId(id)
 				.orElseThrow(() -> new NegocioException("Usuário não encontrado para o id informado"));
-
 
 		usuarioBanco.setPerfil(usuario.getPerfil());
 		usuarioBanco.setAtivo(usuario.getAtivo());

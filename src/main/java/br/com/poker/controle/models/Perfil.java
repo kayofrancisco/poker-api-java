@@ -35,9 +35,16 @@ public class Perfil {
 	}
 	
 	public static Perfil perfilComum() {
-		Perfil perfilComum = new Perfil();
-		perfilComum.setId(UtilConstantes.ID_PERFIL_COMUM);
+		Perfil perfil = new Perfil();
+		perfil.setId(UtilConstantes.ID_PERFIL_COMUM);
 		
-		return perfilComum;
+		return perfil;
+	}
+	
+	public static Perfil perfilAdm() {
+		Perfil perfil = new Perfil();
+		perfil.setId(UtilConstantes.ID_PERFIL_ADM);
+		
+		return perfil;
 	}
 }
