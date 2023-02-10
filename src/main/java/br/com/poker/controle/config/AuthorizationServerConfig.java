@@ -25,12 +25,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	
 	@Value("${security.jwt.client}")
 	private String client;
-	
-	@Value("${security.jwt.secret}")
-	private String secret;
-
-	@Value("${security.jwt.client}")
-	private String client;
 
 	@Value("${security.jwt.secret}")
 	private String secret;
