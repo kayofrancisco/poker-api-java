@@ -53,11 +53,14 @@ public class RakeServiceImpl implements RakeService {
 	@Override
 	public Rake cadastrar(Rake rake) throws NegocioException {
 		ValidadorRake validador = new ValidadorRake(rake);
-
+		
 		if (!validador.validar()) {
 			throw new NegocioException(validador.getErros());
 		}
-
+		
+		Usuario usuario = usuarioService.recuperaUsuarioLogado();
+		rake.setUsuario(usuario);
+		
 		return repository.save(rake);
 	}
 
