@@ -17,10 +17,6 @@ public class RegrasCamposObrigatoriosRake implements RegrasValidador<Rake> {
 			erros.add("O valor do rake deve ser informado");
 		}
 		
-		if (rake.getClube() == null || rake.getClube().getId() == null) {
-			erros.add("O clube deve ser informado");
-		}
-
 		if (erros.size() > 0) {
 			throw new NegocioException(erros);
 		}

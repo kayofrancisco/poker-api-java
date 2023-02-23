@@ -1,17 +1,18 @@
 package br.com.poker.controle.service.impl;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.poker.controle.exceptions.NegocioException;
-import br.com.poker.controle.models.Conta;
 import br.com.poker.controle.models.Rake;
 import br.com.poker.controle.models.Usuario;
 import br.com.poker.controle.repository.RakeRepository;
-import br.com.poker.controle.service.ContaService;
 import br.com.poker.controle.service.RakeService;
 import br.com.poker.controle.service.UsuarioService;
 import br.com.poker.controle.utils.validadores.teste.ValidadorRake;
@@ -20,7 +21,6 @@ import br.com.poker.controle.utils.validadores.teste.ValidadorRake;
 public class RakeServiceImpl implements RakeService {
 
 	private RakeRepository repository;
-	private ContaService contaService;
 	private UsuarioService usuarioService;
 
 	@Autowired
@@ -29,20 +29,20 @@ public class RakeServiceImpl implements RakeService {
 	}
 
 	@Autowired
-	protected void setContaService(ContaService service) {
-		this.contaService = service;
-	}
-
-	@Autowired
 	protected void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
 
 	@Override
-	public List<Rake> buscar() {
+	public Page<Rake> buscar(Integer page, Integer size,  Boolean buscaTotal) {
 		Usuario usuario = usuarioService.recuperaUsuarioLogado();
+		
+		Integer pagina = (buscaTotal != null && buscaTotal == Boolean.TRUE) ? 0 : page;
+		Integer tamanho = (buscaTotal != null && buscaTotal == Boolean.TRUE) ? Integer.MAX_VALUE : size;
+		
+		Pageable pageable = PageRequest.of(pagina, tamanho, Sort.by("criadoEm").descending());
 
-		return repository.findByClubeUsuarioIdOrderByCriadoEmDesc(usuario.getId());
+		return repository.findByUsuarioId(usuario.getId(), pageable);
 	}
 
 	@Override
@@ -72,7 +72,6 @@ public class RakeServiceImpl implements RakeService {
 		}
 		
 		rakeBanco.setValor(rake.getValor());
-		rakeBanco.setClube(rake.getClube());
 		rakeBanco.setCriadoEm(rake.getCriadoEm());
 
 		return repository.save(rake);

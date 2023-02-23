@@ -48,10 +48,10 @@ public class GraficoServiceImpl implements GraficoService {
 
 	@Override
 	public GraficoDTO buscarDadosRakes() {
-		List<Rake> rakes = rakeService.buscar();
+		Page<Rake> rakes = rakeService.buscar(0, 25, Boolean.FALSE);
 		
-		List<LocalDateTime> labels = rakes.stream().map(Rake::getCriadoEm).collect(Collectors.toList());
-		List<BigDecimal> dados = rakes.stream().map(Rake::getValor).collect(Collectors.toList());
+		List<LocalDateTime> labels = rakes.getContent().stream().map(Rake::getCriadoEm).collect(Collectors.toList());
+		List<BigDecimal> dados = rakes.getContent().stream().map(Rake::getValor).collect(Collectors.toList());
 		
 		GraficoDTO dto = new GraficoDTO();
 		dto.setLabels(labels);
