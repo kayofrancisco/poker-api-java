@@ -1,8 +1,7 @@
 package br.com.poker.controle.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.poker.controle.models.Rake;
@@ -30,9 +30,12 @@ public class RakeController {
 	}
 
 	@GetMapping
-	public ResponseEntity<ContentDTO<List<Rake>>> buscar() {
+	public ResponseEntity<ContentDTO<Page<Rake>>> buscar(
+			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+			@RequestParam(value = "busca-total", required = false) Boolean buscaTotal) {
 		try {
-			return ResponseUtils.sucesso(service.buscar());
+			return ResponseUtils.sucesso(service.buscar(page, size, buscaTotal));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseUtils.falha(e);

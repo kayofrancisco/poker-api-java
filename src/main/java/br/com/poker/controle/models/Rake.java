@@ -35,8 +35,8 @@ public class Rake {
 	private LocalDateTime criadoEm;
 	
 	@ManyToOne
-    @JoinColumn(name="clube_id")
-    private Clube clube;
+    @JoinColumn(name="usuario_id")
+    private Usuario usuario;
 
 	@PrePersist
 	public void prePersist() {
