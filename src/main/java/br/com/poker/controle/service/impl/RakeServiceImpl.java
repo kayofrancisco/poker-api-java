@@ -1,5 +1,7 @@
 package br.com.poker.controle.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,5 +85,10 @@ public class RakeServiceImpl implements RakeService {
 	@Override
 	public void deletar(Integer id) {
 		repository.deleteById(id);
+	}
+
+	@Override
+	public List<Rake> buscarRakesPorIntervalo(LocalDateTime inicio, LocalDateTime fim) {
+		return repository.findAllByCriadoEmBetween(inicio, fim);
 	}
 }

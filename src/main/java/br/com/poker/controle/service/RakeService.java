@@ -1,5 +1,7 @@
 package br.com.poker.controle.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -13,4 +15,5 @@ public interface RakeService {
 	Rake cadastrar(Rake rake) throws NegocioException;
 	Rake editar(Rake rake, Integer id) throws NegocioException;
 	void deletar(Integer id);
+	List<Rake> buscarRakesPorIntervalo(LocalDateTime inicio, LocalDateTime fim);
 }

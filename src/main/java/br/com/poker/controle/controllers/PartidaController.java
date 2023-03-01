@@ -1,5 +1,7 @@
 package br.com.poker.controle.controllers;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.poker.controle.models.Partida;
 import br.com.poker.controle.models.dto.ContentDTO;
+import br.com.poker.controle.models.dto.DadosResumidosDTO;
 import br.com.poker.controle.service.PartidaService;
 import br.com.poker.controle.utils.ResponseUtils;
 
@@ -33,8 +36,7 @@ public class PartidaController {
 	public ResponseEntity<ContentDTO<Page<Partida>>> buscar(
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
-			@RequestParam(value = "busca-total", required = false) Boolean buscaTotal
-			) {
+			@RequestParam(value = "busca-total", required = false) Boolean buscaTotal) {
 		try {
 			return ResponseUtils.sucesso(service.buscar(page, size, buscaTotal));
 		} catch (Exception e) {
@@ -65,6 +67,17 @@ public class PartidaController {
 	public ResponseEntity<ContentDTO<Partida>> editar(@RequestBody Partida partida, @PathVariable("id") Integer id) {
 		try {
 			return ResponseUtils.sucesso(service.editar(partida, id));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseUtils.falha(e);
+		}
+	}
+
+	@GetMapping()
+	public ResponseEntity<ContentDTO<DadosResumidosDTO>> buscarIntervaloData(
+			@RequestParam("inicio") LocalDateTime inicio, @RequestParam("fim") LocalDateTime fim) {
+		try {
+			return ResponseUtils.sucesso(service.buscarPorIntervaloData(inicio, fim));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseUtils.falha(e);
