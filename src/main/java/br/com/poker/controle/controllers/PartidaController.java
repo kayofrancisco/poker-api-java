@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,13 +74,13 @@ public class PartidaController {
 		}
 	}
 
-	@GetMapping()
+	@GetMapping("/intervalo")
 	public ResponseEntity<ContentDTO<DadosResumidosDTO>> buscarIntervaloData(
-			@RequestParam("inicio") LocalDateTime inicio, @RequestParam("fim") LocalDateTime fim) {
+			@RequestParam("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
+			@RequestParam("fim") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim) {
 		try {
 			return ResponseUtils.sucesso(service.buscarPorIntervaloData(inicio, fim));
 		} catch (Exception e) {
-			e.printStackTrace();
 			return ResponseUtils.falha(e);
 		}
 	}

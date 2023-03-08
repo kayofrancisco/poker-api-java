@@ -10,12 +10,13 @@ import lombok.Setter;
 @Setter
 public class DadosResumidosDTO {
 	private Limite limite;
-	private Long horasJogadas;
+	private String horasJogadas;
 	private Integer maosJogadas;
-	private BigDecimal ganhoSemRake;
+	private Integer totalSessoes;
+	private BigDecimal lucroSemRake;
 	private BigDecimal rake;
 	private BigDecimal buyinsUp;
 	private BigDecimal winrateMaos;
 	private BigDecimal winrateHoras;
-	private BigDecimal total;
+	private BigDecimal lucro;
 }

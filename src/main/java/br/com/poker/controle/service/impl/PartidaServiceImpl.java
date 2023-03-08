@@ -122,45 +122,40 @@ public class PartidaServiceImpl implements PartidaService {
 			throw new NegocioException("Não existe partida cadastrada no intervalo de datas informado");
 		}
 
-		Limite limite = partidas.get(partidas.size()).getLimite();
-		Long horasJogadas = 0L;
-		Integer maosJogadas = 0;
-		BigDecimal lucro = new BigDecimal(0);
-
-		for (int i = 0; i < partidas.size(); i++) {
-			Long horasJogadasAtual = Duration.between(partidas.get(i).getDataFim(), partidas.get(i).getDataInicio())
-					.getSeconds();
-			Integer maosJogadasAtual = partidas.get(i).getQuantidadeMaosFim()
-					- partidas.get(i).getQuantidadeMaosInicio();
-			BigDecimal lucroAtual = partidas.get(i).getFichasFinais().subtract(partidas.get(i).getFichasIniciais());
-
-			if (i == 0) {
-				horasJogadas = horasJogadasAtual;
-				maosJogadas = maosJogadasAtual;
-				lucro = lucroAtual;
-			} else {
-				horasJogadas += horasJogadasAtual;
-				maosJogadas += maosJogadasAtual;
-				lucro.add(lucroAtual);
-			}
-		}
+		Limite limite = partidas.get(partidas.size() - 1).getLimite();
+		Long horasJogadas = partidas.stream()
+				.map(item -> Duration.between(item.getDataInicio(), item.getDataFim()).getSeconds())
+				.reduce(0L, (subtotal, element) -> subtotal + element);
+		Integer maosJogadas = partidas.stream()
+				.map(item -> item.getQuantidadeMaosFim() - item.getQuantidadeMaosInicio())
+				.reduce(0, (subtotal, element) -> subtotal + element);
+		BigDecimal lucro = partidas.stream()
+				.map(item -> item.getFichasFinais().subtract(item.getFichasIniciais()))
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
 
 		List<Rake> rakes = rakeService.buscarRakesPorIntervalo(dataMinima, dataMaxima);
 		BigDecimal rake = rakes.isEmpty() ? BigDecimal.ZERO
 				: rakes.stream().map(item -> item.getValor()).reduce(BigDecimal.ZERO, BigDecimal::add);
 
 		BigDecimal buyin = limite.getBigBlind().multiply(BigDecimal.valueOf(100));
+		
+		long hh = horasJogadas / 3600;
+		long mm = (horasJogadas % 3600) / 60;
+		long ss = horasJogadas % 60;
 
 		DadosResumidosDTO dados = new DadosResumidosDTO();
 		dados.setLimite(limite);
-		dados.setHorasJogadas(horasJogadas);
+		dados.setHorasJogadas(String.format("%02d:%02d:%02d", hh, mm, ss));
+		dados.setTotalSessoes(partidas.size());
 		dados.setMaosJogadas(maosJogadas);
-		dados.setGanhoSemRake(lucro);
+		dados.setLucroSemRake(lucro);
 		dados.setRake(rake);
 		dados.setBuyinsUp(lucro.divide(buyin));
-		dados.setWinrateMaos(lucro.divide(BigDecimal.valueOf(maosJogadas)).multiply(BigDecimal.valueOf(100)));
-		dados.setWinrateHoras(lucro.divide(BigDecimal.valueOf(maosJogadas)).multiply(BigDecimal.valueOf(60)));
-		dados.setTotal(lucro.add(rake));
+		BigDecimal lucroPorMaos = lucro.divide(BigDecimal.valueOf(maosJogadas), 3, RoundingMode.HALF_UP);
+
+		dados.setWinrateMaos(lucroPorMaos.multiply(BigDecimal.valueOf(100)));
+		dados.setWinrateHoras(lucroPorMaos.multiply(BigDecimal.valueOf(60)));
+		dados.setLucro(lucro.add(rake));
 
 		return dados;
 	}
