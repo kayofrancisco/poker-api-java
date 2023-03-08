@@ -15,5 +15,5 @@ public interface RakeService {
 	Rake cadastrar(Rake rake) throws NegocioException;
 	Rake editar(Rake rake, Integer id) throws NegocioException;
 	void deletar(Integer id);
-	List<Rake> buscarRakesPorIntervalo(LocalDateTime inicio, LocalDateTime fim);
+	List<Rake> buscarRakesPorIntervalo(LocalDateTime inicio, LocalDateTime fim, Integer idUsuario);
 }

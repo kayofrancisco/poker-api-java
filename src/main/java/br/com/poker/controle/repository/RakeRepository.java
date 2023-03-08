@@ -11,5 +11,5 @@ import br.com.poker.controle.models.Rake;
 
 public interface RakeRepository extends JpaRepository<Rake, Integer> {
 	Page<Rake> findByUsuarioId(Integer idUsuario, Pageable page);
-	List<Rake> findAllByCriadoEmBetween(LocalDateTime inicio, LocalDateTime fim);
+	List<Rake> findAllByCriadoEmBetweenAndUsuarioId(LocalDateTime inicio, LocalDateTime fim, Integer idUsuario);
 }

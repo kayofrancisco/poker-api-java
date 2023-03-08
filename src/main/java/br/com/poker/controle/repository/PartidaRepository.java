@@ -11,5 +11,6 @@ import br.com.poker.controle.models.Partida;
 
 public interface PartidaRepository extends JpaRepository<Partida, Integer> {
 	Page<Partida> findByUsuarioId(Integer idUsuario, Pageable page);
-	List<Partida> findAllByDataInicioBetween(LocalDateTime inicio, LocalDateTime fim);
+
+	List<Partida> findAllByDataInicioBetweenAndUsuarioId(LocalDateTime inicio, LocalDateTime fim, Integer idUsuario);
 }

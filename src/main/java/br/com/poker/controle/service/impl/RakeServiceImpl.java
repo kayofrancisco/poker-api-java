@@ -88,7 +88,7 @@ public class RakeServiceImpl implements RakeService {
 	}
 
 	@Override
-	public List<Rake> buscarRakesPorIntervalo(LocalDateTime inicio, LocalDateTime fim) {
-		return repository.findAllByCriadoEmBetween(inicio, fim);
+	public List<Rake> buscarRakesPorIntervalo(LocalDateTime inicio, LocalDateTime fim, Integer idUsuario) {
+		return repository.findAllByCriadoEmBetweenAndUsuarioId(inicio, fim, idUsuario);
 	}
 }

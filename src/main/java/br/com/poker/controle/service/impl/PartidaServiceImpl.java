@@ -117,7 +117,8 @@ public class PartidaServiceImpl implements PartidaService {
 	@Override
 	public DadosResumidosDTO buscarPorIntervaloData(LocalDateTime dataMinima, LocalDateTime dataMaxima)
 			throws NegocioException {
-		List<Partida> partidas = repository.findAllByDataInicioBetween(dataMinima, dataMaxima);
+		Usuario usuario = usuarioService.recuperaUsuarioLogado();
+		List<Partida> partidas = repository.findAllByDataInicioBetweenAndUsuarioId(dataMinima, dataMaxima, usuario.getId());
 		if (partidas.isEmpty()) {
 			throw new NegocioException("Não existe partida cadastrada no intervalo de datas informado");
 		}
@@ -133,7 +134,7 @@ public class PartidaServiceImpl implements PartidaService {
 				.map(item -> item.getFichasFinais().subtract(item.getFichasIniciais()))
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 
-		List<Rake> rakes = rakeService.buscarRakesPorIntervalo(dataMinima, dataMaxima);
+		List<Rake> rakes = rakeService.buscarRakesPorIntervalo(dataMinima, dataMaxima, usuario.getId());
 		BigDecimal rake = rakes.isEmpty() ? BigDecimal.ZERO
 				: rakes.stream().map(item -> item.getValor()).reduce(BigDecimal.ZERO, BigDecimal::add);
 
