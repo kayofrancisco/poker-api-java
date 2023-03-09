@@ -124,7 +124,7 @@ public class PartidaServiceImpl implements PartidaService {
 		}
 
 		Limite limite = partidas.get(partidas.size() - 1).getLimite();
-		Long horasJogadas = partidas.stream()
+		Long segundosJogados = partidas.stream()
 				.map(item -> Duration.between(item.getDataInicio(), item.getDataFim()).getSeconds())
 				.reduce(0L, (subtotal, element) -> subtotal + element);
 		Integer maosJogadas = partidas.stream()
@@ -140,10 +140,10 @@ public class PartidaServiceImpl implements PartidaService {
 
 		BigDecimal buyin = limite.getBigBlind().multiply(BigDecimal.valueOf(100));
 		
-		long hh = horasJogadas / 3600;
-		long mm = (horasJogadas % 3600) / 60;
-		long ss = horasJogadas % 60;
-
+		long hh = segundosJogados / 3600;
+		long mm = (segundosJogados % 3600) / 60;
+		long ss = segundosJogados % 60;
+		
 		DadosResumidosDTO dados = new DadosResumidosDTO();
 		dados.setLimite(limite);
 		dados.setHorasJogadas(String.format("%02d:%02d:%02d", hh, mm, ss));
@@ -151,11 +151,12 @@ public class PartidaServiceImpl implements PartidaService {
 		dados.setMaosJogadas(maosJogadas);
 		dados.setLucroSemRake(lucro);
 		dados.setRake(rake);
-		dados.setBuyinsUp(lucro.divide(buyin));
+		dados.setBuyinsUp(lucro.divide(buyin).setScale(3, RoundingMode.HALF_UP));
 		BigDecimal lucroPorMaos = lucro.divide(BigDecimal.valueOf(maosJogadas), 3, RoundingMode.HALF_UP);
+		BigDecimal lucroPorSegundo = lucro.divide(BigDecimal.valueOf(segundosJogados), 3, RoundingMode.HALF_UP);
 
-		dados.setWinrateMaos(lucroPorMaos.multiply(BigDecimal.valueOf(100)));
-		dados.setWinrateHoras(lucroPorMaos.multiply(BigDecimal.valueOf(60)));
+		dados.setWinrateMaos(lucroPorMaos.multiply(BigDecimal.valueOf(100)).setScale(3, RoundingMode.UP));
+		dados.setWinrateHoras(lucroPorSegundo.multiply(BigDecimal.valueOf(3600)));
 		dados.setLucro(lucro.add(rake));
 
 		return dados;
