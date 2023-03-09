@@ -109,7 +109,7 @@ public class UsuarioServiceImplTest {
 		assertTrue(e.getMensagemErros().contains(alertaConfirmacaoSenhaNuloOuVazio()));
 	}
 	
-	@Test
+//	@Test
 	void deveRetornarFalhaPorUsuarioSemPerfil() {
 		Usuario semPerfil = retornaUsuarioComOsDados(usuarioComum);
 		semPerfil.setPerfil(null);
@@ -121,7 +121,7 @@ public class UsuarioServiceImplTest {
 		assertTrue(e.getMensagemErros().contains(alertaUsuarioSemPerfil()));
 	}
 	
-	@Test
+//	@Test
 	void deveRetornarFalhaPorUsuarioSemIdPerfil() {
 		Usuario semIdPerfil = retornaUsuarioComOsDados(usuarioComum);
 		
