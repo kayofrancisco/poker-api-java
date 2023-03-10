@@ -118,20 +118,26 @@ public class PartidaServiceImpl implements PartidaService {
 	public DadosResumidosDTO buscarPorIntervaloData(LocalDateTime dataMinima, LocalDateTime dataMaxima)
 			throws NegocioException {
 		Usuario usuario = usuarioService.recuperaUsuarioLogado();
-		List<Partida> partidas = repository.findAllByDataInicioBetweenAndUsuarioId(dataMinima, dataMaxima, usuario.getId());
+		List<Partida> partidas = repository.findAllByDataInicioBetweenAndUsuarioId(dataMinima, dataMaxima,
+				usuario.getId());
 		if (partidas.isEmpty()) {
 			throw new NegocioException("Não existe partida cadastrada no intervalo de datas informado");
 		}
 
 		Limite limite = partidas.get(partidas.size() - 1).getLimite();
 		Long segundosJogados = partidas.stream()
-				.map(item -> Duration.between(item.getDataInicio(), item.getDataFim()).getSeconds())
+				.map(item -> item.getDataFim() != null
+						? Duration.between(item.getDataInicio(), item.getDataFim()).getSeconds()
+						: 0)
 				.reduce(0L, (subtotal, element) -> subtotal + element);
 		Integer maosJogadas = partidas.stream()
-				.map(item -> item.getQuantidadeMaosFim() - item.getQuantidadeMaosInicio())
+				.map(item -> item.getQuantidadeMaosFim() != null
+						? item.getQuantidadeMaosFim() - item.getQuantidadeMaosInicio()
+						: 0)
 				.reduce(0, (subtotal, element) -> subtotal + element);
 		BigDecimal lucro = partidas.stream()
-				.map(item -> item.getFichasFinais().subtract(item.getFichasIniciais()))
+				.map(item -> item.getFichasFinais() != null ? item.getFichasFinais().subtract(item.getFichasIniciais())
+						: BigDecimal.ZERO)
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 
 		List<Rake> rakes = rakeService.buscarRakesPorIntervalo(dataMinima, dataMaxima, usuario.getId());
@@ -139,11 +145,11 @@ public class PartidaServiceImpl implements PartidaService {
 				: rakes.stream().map(item -> item.getValor()).reduce(BigDecimal.ZERO, BigDecimal::add);
 
 		BigDecimal buyin = limite.getBigBlind().multiply(BigDecimal.valueOf(100));
-		
+
 		long hh = segundosJogados / 3600;
 		long mm = (segundosJogados % 3600) / 60;
 		long ss = segundosJogados % 60;
-		
+
 		DadosResumidosDTO dados = new DadosResumidosDTO();
 		dados.setLimite(limite);
 		dados.setHorasJogadas(String.format("%02d:%02d:%02d", hh, mm, ss));
