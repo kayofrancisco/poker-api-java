@@ -92,18 +92,10 @@ public class PartidaServiceImpl implements PartidaService {
 		partidaBanco.setDataInicio(partida.getDataInicio());
 		partidaBanco.setDataFim(partida.getDataFim());
 		partidaBanco.setLimite(partida.getLimite());
-		partidaBanco.setQuantidadeBigBlind(partida.getQuantidadeBigBlind());
 		partidaBanco.setQuantidadeMaosInicio(partida.getQuantidadeMaosInicio());
 		partidaBanco.setQuantidadeMaosFim(partida.getQuantidadeMaosFim());
 		partidaBanco.setFichasIniciais(partida.getFichasIniciais());
 		partidaBanco.setFichasFinais(partida.getFichasFinais());
-
-		partida.setValor(partida.getFichasFinais().subtract(partida.getFichasIniciais()));
-
-		partidaBanco.setValor(partida.getValor());
-
-		BigDecimal quantidade = partida.getValor().divide(partida.getLimite().getBigBlind(), 2, RoundingMode.HALF_UP);
-		partidaBanco.setQuantidadeBigBlind(quantidade);
 
 //		return partidaBanco;
 		return repository.save(partidaBanco);

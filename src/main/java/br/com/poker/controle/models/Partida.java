@@ -26,12 +26,6 @@ public class Partida {
 	@Column(name = "id")
 	private Integer id;
 
-	@Column(name = "valor_ganho")
-	private BigDecimal valor;
-
-	@Column(name = "quantidade_big_blind")
-	private BigDecimal quantidadeBigBlind;
-
 	@Column(name = "quantidade_maos_inicio")
 	private Integer quantidadeMaosInicio;
 	
@@ -66,12 +60,10 @@ public class Partida {
 	public Partida() {
 	}
 
-	public Partida(Integer id, BigDecimal valor, BigDecimal quantidadeBigBlind, Integer quantidadeMaosInicio, Integer quantidadeMaosFim,
+	public Partida(Integer id, Integer quantidadeMaosInicio, Integer quantidadeMaosFim,
 			LocalDateTime dataInicio, LocalDateTime dataFim, Limite limite, Usuario usuario) {
 		super();
 		this.id = id;
-		this.valor = valor;
-		this.quantidadeBigBlind = quantidadeBigBlind;
 		this.quantidadeMaosInicio = quantidadeMaosInicio;
 		this.quantidadeMaosFim = quantidadeMaosFim;
 		this.dataInicio = dataInicio;
