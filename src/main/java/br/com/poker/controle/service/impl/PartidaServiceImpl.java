@@ -159,4 +159,15 @@ public class PartidaServiceImpl implements PartidaService {
 
 		return dados;
 	}
+
+	@Override
+	public Partida buscarPrimeiraPartidaRegistrada() {
+		Usuario usuario = usuarioService.recuperaUsuarioLogado();
+
+		Pageable pageable = PageRequest.of(0, 1, Sort.by("dataInicio").ascending());
+
+		Page<Partida> partidas = repository.findByUsuarioId(usuario.getId(), pageable);
+
+		return partidas.getContent().get(0);
+	}
 }

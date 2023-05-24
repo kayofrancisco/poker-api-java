@@ -84,4 +84,13 @@ public class PartidaController {
 			return ResponseUtils.falha(e);
 		}
 	}
+	
+	@GetMapping("/primeira-partida")
+	public ResponseEntity<ContentDTO<Partida>> buscarPrimeiraPartidaRegistrada() {
+		try {
+			return ResponseUtils.sucesso(service.buscarPrimeiraPartidaRegistrada());
+		} catch (Exception e) {
+			return ResponseUtils.falha(e);
+		}
+	}
 }
