@@ -110,7 +110,7 @@ public class PartidaServiceImpl implements PartidaService {
 	public DadosResumidosDTO buscarPorIntervaloData(LocalDateTime dataMinima, LocalDateTime dataMaxima)
 			throws NegocioException {
 		Usuario usuario = usuarioService.recuperaUsuarioLogado();
-		List<Partida> partidas = repository.findAllByDataInicioBetweenAndUsuarioId(dataMinima, dataMaxima,
+		List<Partida> partidas = repository.findAllByDataInicioBetweenAndUsuarioIdAndFichasFinaisNotNull(dataMinima, dataMaxima,
 				usuario.getId());
 		if (partidas.isEmpty()) {
 			throw new NegocioException("Não existe partida cadastrada no intervalo de datas informado");

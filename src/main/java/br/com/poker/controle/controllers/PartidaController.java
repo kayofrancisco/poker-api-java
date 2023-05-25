@@ -81,7 +81,6 @@ public class PartidaController {
 		try {
 			return ResponseUtils.sucesso(service.buscarPorIntervaloData(inicio, fim));
 		} catch (Exception e) {
-			e.printStackTrace();
 			return ResponseUtils.falha(e);
 		}
 	}
