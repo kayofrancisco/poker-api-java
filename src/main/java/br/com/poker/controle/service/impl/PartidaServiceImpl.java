@@ -149,9 +149,12 @@ public class PartidaServiceImpl implements PartidaService {
 		dados.setMaosJogadas(maosJogadas);
 		dados.setLucroSemRake(lucro);
 		dados.setRake(rake);
-		dados.setBuyinsUp(lucro.divide(buyin).setScale(3, RoundingMode.HALF_UP));
-		BigDecimal lucroPorMaos = lucro.divide(BigDecimal.valueOf(maosJogadas), 3, RoundingMode.HALF_UP);
-		BigDecimal lucroPorSegundo = lucro.divide(BigDecimal.valueOf(segundosJogados), 3, RoundingMode.HALF_UP);
+		dados.setBuyinsUp(lucro.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO : 
+			lucro.divide(buyin).setScale(3, RoundingMode.HALF_UP));
+		BigDecimal lucroPorMaos = lucro.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO : 
+			lucro.divide(BigDecimal.valueOf(maosJogadas), 3, RoundingMode.HALF_UP);
+		BigDecimal lucroPorSegundo = lucro.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO : 
+			lucro.divide(BigDecimal.valueOf(segundosJogados), 3, RoundingMode.HALF_UP);
 
 		dados.setWinrateMaos(lucroPorMaos.multiply(BigDecimal.valueOf(100)).setScale(3, RoundingMode.UP));
 		dados.setWinrateHoras(lucroPorSegundo.multiply(BigDecimal.valueOf(3600)));
