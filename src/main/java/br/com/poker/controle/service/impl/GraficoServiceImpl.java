@@ -38,6 +38,10 @@ public class GraficoServiceImpl implements GraficoService {
 		
 		List<LocalDateTime> labels = partidas.getContent().stream().map(Partida::getDataInicio).collect(Collectors.toList());
 		List<BigDecimal> dados = partidas.getContent().stream().map(item -> {
+			if (item.getFichasFinais() == null || item.getFichasIniciais() == null) {
+				return BigDecimal.ZERO;
+			}
+			
 			BigDecimal fichasFinais = item.getFichasFinais().multiply(item.getLimite().getBigBlind());
 			BigDecimal fichasIniciais = item.getFichasIniciais().multiply(item.getLimite().getBigBlind());
 			
