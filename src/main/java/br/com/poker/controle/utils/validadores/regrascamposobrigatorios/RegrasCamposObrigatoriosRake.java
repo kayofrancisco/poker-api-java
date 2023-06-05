@@ -17,6 +17,10 @@ public class RegrasCamposObrigatoriosRake implements RegrasValidador<Rake> {
 			erros.add("O valor do rake deve ser informado");
 		}
 		
+		if (rake.getLimite() == null || rake.getLimite().getId() == null) {
+			erros.add("O limite do rake deve ser informado");
+		}
+		
 		if (erros.size() > 0) {
 			throw new NegocioException(erros);
 		}

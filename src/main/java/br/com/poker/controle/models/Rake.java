@@ -37,6 +37,10 @@ public class Rake {
 	@ManyToOne
     @JoinColumn(name="usuario_id")
     private Usuario usuario;
+	
+	@ManyToOne
+    @JoinColumn(name="limite_id")
+    private Limite limite;
 
 	@PrePersist
 	public void prePersist() {

@@ -77,6 +77,7 @@ public class RakeServiceImpl implements RakeService {
 		}
 		
 		rakeBanco.setValor(rake.getValor());
+		rakeBanco.setLimite(rake.getLimite());
 		rakeBanco.setCriadoEm(rake.getCriadoEm());
 
 		return repository.save(rake);
