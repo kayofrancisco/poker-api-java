@@ -37,16 +37,12 @@ public class GraficoServiceImpl implements GraficoService {
 		Page<Partida> partidas = partidaService.buscar(0, 25, Boolean.FALSE);
 		
 		List<LocalDateTime> labels = partidas.getContent().stream().map(Partida::getDataInicio).collect(Collectors.toList());
-		List<BigDecimal> dados = partidas.getContent().stream().map(item -> {
-			if (item.getFichasFinais() == null || item.getFichasIniciais() == null) {
-				return BigDecimal.ZERO;
-			}
-			
-			BigDecimal fichasFinais = item.getFichasFinais().multiply(item.getLimite().getBigBlind());
-			BigDecimal fichasIniciais = item.getFichasIniciais().multiply(item.getLimite().getBigBlind());
-			
-			return fichasFinais.subtract(fichasIniciais);
-		}).collect(Collectors.toList());
+		
+		List<BigDecimal> dados = partidas.getContent().stream().map(item -> 
+			item.getFichasFinais() == null || item.getFichasIniciais() == null ? 
+				BigDecimal.ZERO : 
+				item.getFichasFinais().subtract(item.getFichasIniciais())
+		).collect(Collectors.toList());
 		
 		GraficoDTO dto = new GraficoDTO();
 		dto.setLabels(labels);
