@@ -139,13 +139,9 @@ public class PartidaServiceImpl implements PartidaService {
 
 		BigDecimal buyin = limite.getBigBlind().multiply(BigDecimal.valueOf(100));
 
-		long hh = segundosJogados / 3600;
-		long mm = (segundosJogados % 3600) / 60;
-		long ss = segundosJogados % 60;
-
 		DadosResumidosDTO dados = new DadosResumidosDTO();
 		dados.setLimite(limite);
-		dados.setHorasJogadas(String.format("%02d:%02d:%02d", hh, mm, ss));
+		dados.setSecundosJogados(segundosJogados);
 		dados.setTotalSessoes(partidas.size());
 		dados.setMaosJogadas(maosJogadas);
 		dados.setLucroSemRake(lucro);
