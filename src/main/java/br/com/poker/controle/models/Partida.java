@@ -32,14 +32,14 @@ public class Partida {
 	@Column(name = "quantidade_maos_fim")
 	private Integer quantidadeMaosFim;
 	
+	@Column(name = "online")
+	private Boolean online;
+	
 	@Column(name = "fichas_iniciais")
 	private BigDecimal fichasIniciais;
 	
 	@Column(name = "fichas_finais")
 	private BigDecimal fichasFinais;
-	
-	@Column(name = "link")
-	private String link;
 
 	@Column(name = "data_inicio")
 	@JsonFormat(pattern = UtilData.PATTERN_DATA)
