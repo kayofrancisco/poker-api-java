@@ -147,7 +147,7 @@ public class PartidaServiceImpl implements PartidaService {
 		dados.setLucroSemRake(lucro);
 		dados.setRake(rake);
 		dados.setBuyinsUp(lucro.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO : 
-			lucro.divide(buyin).setScale(3, RoundingMode.HALF_UP));
+			lucro.divide(buyin, 3, RoundingMode.UP));
 		BigDecimal lucroPorMaos = lucro.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO : 
 			lucro.divide(BigDecimal.valueOf(maosJogadas), 3, RoundingMode.HALF_UP);
 		BigDecimal lucroPorSegundo = lucro.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO : 
