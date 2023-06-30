@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "perfis")
+@Table(name = "perfis", schema = "poker")
 public class Perfil {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
