@@ -290,7 +290,6 @@ public class PartidaServiceImplTest {
 		partida.setId(1);
 		partida.setQuantidadeMaosInicio(0);
 		partida.setQuantidadeMaosFim(200);
-		partida.setOnline(Boolean.TRUE);
 		partida.setFichasIniciais(new BigDecimal(100.0));
 		partida.setFichasFinais(new BigDecimal(200.03));
 		partida.setDataInicio(LocalDateTime.of(2023, 05, 01, 0, 0));
@@ -306,7 +305,6 @@ public class PartidaServiceImplTest {
 		partida.setId(2);
 		partida.setQuantidadeMaosInicio(200);
 		partida.setQuantidadeMaosFim(400);
-		partida.setOnline(Boolean.TRUE);
 		partida.setFichasIniciais(new BigDecimal(200.13));
 		partida.setFichasFinais(new BigDecimal(300.03));
 		partida.setDataInicio(LocalDateTime.of(2023, 05, 01, 04, 0));
