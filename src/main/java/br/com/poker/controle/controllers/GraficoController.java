@@ -49,5 +49,4 @@ public class GraficoController {
 			return ResponseUtils.falha(e);
 		}
 	}
-
 }

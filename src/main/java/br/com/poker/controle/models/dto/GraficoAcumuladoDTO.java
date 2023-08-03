@@ -10,5 +10,5 @@ import lombok.Setter;
 @Setter
 public class GraficoAcumuladoDTO {
 	private List<String> labels;
-	private List<BigDecimal> valores;
+	private List<List<BigDecimal>> valores;
 }

@@ -7,5 +7,4 @@ public interface GraficoService {
 	GraficoDTO buscarDadosPartidas();
 	GraficoDTO buscarDadosRakes();
 	GraficoAcumuladoDTO buscarDadosAcumulados();
-	GraficoDTO buscarDadosAcumuladosComRake();
 }
