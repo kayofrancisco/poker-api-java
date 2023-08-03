@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.poker.controle.models.dto.ContentDTO;
+import br.com.poker.controle.models.dto.GraficoAcumuladoDTO;
 import br.com.poker.controle.models.dto.GraficoDTO;
 import br.com.poker.controle.service.GraficoService;
 import br.com.poker.controle.utils.ResponseUtils;
@@ -35,6 +36,15 @@ public class GraficoController {
 	public ResponseEntity<ContentDTO<GraficoDTO>> buscarRakes() {
 		try {
 			return ResponseUtils.sucesso(service.buscarDadosRakes());
+		} catch (Exception e) {
+			return ResponseUtils.falha(e);
+		}
+	}
+	
+	@GetMapping("/acumulados")
+	public ResponseEntity<ContentDTO<GraficoAcumuladoDTO>> buscarAcumulados() {
+		try {
+			return ResponseUtils.sucesso(service.buscarDadosAcumulados());
 		} catch (Exception e) {
 			return ResponseUtils.falha(e);
 		}
