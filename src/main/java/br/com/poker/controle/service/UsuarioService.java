@@ -1,5 +1,6 @@
 package br.com.poker.controle.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -23,4 +24,8 @@ public interface UsuarioService {
 	void deletar(Integer id) throws NegocioException;
 
 	Usuario recuperaUsuarioLogado();
+	
+	String resetaSenha(Integer id) throws NegocioException, NoSuchAlgorithmException;
+	
+	String resetaSenhaUsuarioLogado() throws NegocioException, NoSuchAlgorithmException;
 }

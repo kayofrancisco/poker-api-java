@@ -79,6 +79,23 @@ public class UsuarioController {
 		} catch (Exception e) {
 			return ResponseUtils.falha(e);
 		}
-
+	}
+	
+	@PutMapping("/reseta-senha/{id}")
+	public ResponseEntity<ContentDTO<String>> resetaSenhaPorId(@PathVariable("id") Integer id) {
+		try {
+			return ResponseUtils.sucesso(service.resetaSenha(id));
+		} catch (Exception e) {
+			return ResponseUtils.falha(e);
+		}
+	}
+	
+	@GetMapping("/reseta-minha-senha")
+	public ResponseEntity<ContentDTO<String>> resetaSenhaUsuarioLogado() {
+		try {
+			return ResponseUtils.sucesso(service.resetaSenhaUsuarioLogado());
+		} catch (Exception e) {
+			return ResponseUtils.falha(e);
+		}
 	}
 }

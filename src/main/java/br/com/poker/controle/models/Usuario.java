@@ -63,6 +63,7 @@ public class Usuario {
 		setUltimaAtualizacao(LocalDateTime.now());
 		setCriadoEm(LocalDateTime.now());
 		setAtivo(Boolean.FALSE);
+		setEmail(this.email.toLowerCase());
 		setPerfil(Perfil.perfilComum());
 		setSenha(Utils.encodeSenha(getSenha()));
 	}

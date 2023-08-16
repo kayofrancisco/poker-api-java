@@ -1,5 +1,7 @@
 package br.com.poker.controle.service.impl;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import br.com.poker.controle.models.Usuario;
 import br.com.poker.controle.repository.UsuarioRepository;
 import br.com.poker.controle.service.UsuarioJwtService;
 import br.com.poker.controle.service.UsuarioService;
+import br.com.poker.controle.utils.Utils;
 import br.com.poker.controle.utils.validadores.teste.ValidadorUsuario;
 
 @Service("UsuarioService")
@@ -23,6 +26,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	private UsuarioRepository repository;
 	private UsuarioJwtService usuarioJwtService;
+	
+    private static final String CARACTERES_PERMITIDOS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-+=<>?";
 
 	@Autowired
 	protected void setRepository(UsuarioRepository repository) {
@@ -117,5 +122,46 @@ public class UsuarioServiceImpl implements UsuarioService {
 		usuarioBanco.setAtivo(usuario.getAtivo());
 
 		return repository.save(usuarioBanco);
+	}
+
+	@Override
+	public String resetaSenha(Integer id) throws NegocioException, NoSuchAlgorithmException {
+		Usuario usuario = repository.findById(id).orElseThrow(() -> new NegocioException("Usuário não encontrado"));
+
+		String novaSenha = gerarSenhaAleatoria();
+		
+		usuario.setSenha(Utils.encodeSenha(novaSenha));
+		
+		repository.save(usuario);
+		
+		return novaSenha;
+		
+	}
+	
+	private String gerarSenhaAleatoria() {
+        SecureRandom random = new SecureRandom();
+        StringBuilder senha = new StringBuilder(8);
+
+        for (int i = 0; i < 8; i++) {
+            int indice = random.nextInt(CARACTERES_PERMITIDOS.length());
+            char caractereAleatorio = CARACTERES_PERMITIDOS.charAt(indice);
+            senha.append(caractereAleatorio);
+        }
+
+        return senha.toString();
+    }
+
+	@Override
+	public String resetaSenhaUsuarioLogado() throws NegocioException, NoSuchAlgorithmException {
+		Usuario usuario = recuperaUsuarioLogado();
+		
+		String novaSenha = gerarSenhaAleatoria();
+		
+		usuario.setSenha(Utils.encodeSenha(novaSenha));
+		
+		repository.save(usuario);
+		
+		return novaSenha;
+		
 	}
 }
