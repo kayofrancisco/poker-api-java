@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +16,7 @@ import br.com.poker.controle.models.Partida;
 import br.com.poker.controle.models.Rake;
 import br.com.poker.controle.models.Usuario;
 import br.com.poker.controle.models.dto.GraficoAcumuladoDTO;
+import br.com.poker.controle.models.dto.GraficoAcumuladoMaosDTO;
 import br.com.poker.controle.models.dto.GraficoDTO;
 import br.com.poker.controle.repository.PartidaRepository;
 import br.com.poker.controle.repository.RakeRepository;
@@ -109,27 +109,30 @@ public class GraficoServiceImpl implements GraficoService {
 		Long diferencaMeses = ChronoUnit.MONTHS.between(dataInicio, dataAgora);
 
 		List<String> labels = new ArrayList<String>();
+		List<BigDecimal> valoresMensais = new ArrayList<BigDecimal>();
 		List<BigDecimal> valoresAcumulados = new ArrayList<BigDecimal>();
 		List<BigDecimal> valoresAcumuladosComRake = new ArrayList<BigDecimal>();
-		
+
 		BigDecimal acumulado = BigDecimal.ZERO;
 		BigDecimal acumuladoComRake = BigDecimal.ZERO;
 
 		for (int i = 0; i < diferencaMeses + 1; i++) {
 			BigDecimal lucroPartidas = BigDecimal.ZERO;
 			BigDecimal lucroRakes = BigDecimal.ZERO;
-			
+
 			lucroPartidas = retornaAcumuladoDasPartidas(dataInicio, dataFim, usuario);
 			lucroRakes = retornaAcumuladoDosRakes(dataInicio, dataFim, usuario);
-			
-			if (valoresAcumulados.isEmpty()) {
+
+			if (valoresMensais.isEmpty()) {
 				acumulado = lucroPartidas;
-				valoresAcumulados.add(lucroPartidas);
-			} else {
-				acumulado = valoresAcumulados.get(i - 1).add(lucroPartidas);
+				valoresMensais.add(lucroPartidas);
 				valoresAcumulados.add(acumulado);
+			} else {
+				acumulado = valoresMensais.get(i - 1).add(lucroPartidas);
+				valoresMensais.add(lucroPartidas);
+				valoresAcumulados.add(valoresMensais.stream().reduce(BigDecimal.ZERO, BigDecimal::add));
 			}
-			
+
 			if (valoresAcumuladosComRake.isEmpty()) {
 				acumuladoComRake = acumulado;
 				valoresAcumuladosComRake.add(acumuladoComRake.add(lucroRakes));
@@ -146,7 +149,7 @@ public class GraficoServiceImpl implements GraficoService {
 
 		GraficoAcumuladoDTO dto = new GraficoAcumuladoDTO();
 		dto.setLabels(labels);
-		dto.setValores(Arrays.asList(valoresAcumulados, valoresAcumuladosComRake));
+		dto.setValores(Arrays.asList(valoresMensais, valoresAcumulados, valoresAcumuladosComRake));
 
 		return dto;
 	}
@@ -173,5 +176,98 @@ public class GraficoServiceImpl implements GraficoService {
 		}
 
 		return rakes.stream().map(item -> item.getValor()).reduce(BigDecimal.ZERO, BigDecimal::add);
+	}
+
+	private Integer retornaAcumuladoMaosDasPartidas(LocalDateTime inicio, LocalDateTime fim, Usuario usuario) {
+		List<Partida> partidas = partidaRepository.findAllByDataInicioBetweenAndUsuarioIdAndFichasFinaisNotNull(inicio,
+				fim, usuario.getId());
+
+		if (partidas.isEmpty()) {
+			return 0;
+		}
+
+		return partidas.stream()
+				.map(item -> item.getQuantidadeMaosFim() != null
+						? item.getQuantidadeMaosFim() - item.getQuantidadeMaosInicio()
+						: 0)
+				.reduce(0, Integer::sum);
+	}
+
+	@Override
+	public GraficoAcumuladoMaosDTO buscarMaosAcumuladas() {
+		Usuario usuario = usuarioService.recuperaUsuarioLogado();
+
+		LocalDateTime dataAgora = LocalDateTime.now();
+
+		Partida primeiraPartida = partidaService.buscarPrimeiraPartidaRegistrada();
+
+		LocalDateTime dataInicio = LocalDateTime.of(primeiraPartida.getDataInicio().getYear(),
+				primeiraPartida.getDataInicio().getMonthValue(), 1, 0, 0, 0);
+		LocalDateTime dataFim = dataInicio.plusMonths(1);
+
+		Long diferencaMeses = ChronoUnit.MONTHS.between(dataInicio, dataAgora);
+
+		List<String> labels = new ArrayList<String>();
+		List<Integer> maosMensais = new ArrayList<Integer>();
+		List<Integer> maosAcumuladas = new ArrayList<Integer>();
+
+		Integer acumulado = 0;
+
+		for (int i = 0; i < diferencaMeses + 1; i++) {
+			Integer maos = retornaAcumuladoMaosDasPartidas(dataInicio, dataFim, usuario);
+
+			labels.add(UtilMes.retornaMesPorNumero(dataInicio.getMonthValue()) + " - " + dataInicio.getYear());
+			maosMensais.add(maos);
+			acumulado = acumulado + maos;
+			maosAcumuladas.add(acumulado);
+
+			dataInicio = dataInicio.plusMonths(1);
+			dataFim = dataFim.plusMonths(1);
+		}
+
+		GraficoAcumuladoMaosDTO dto = new GraficoAcumuladoMaosDTO();
+		dto.setLabels(labels);
+		dto.setValores(Arrays.asList(maosMensais, maosAcumuladas));
+
+		return dto;
+	}
+
+	@Override
+	public GraficoAcumuladoDTO buscarRakesAcumuladas() {
+		Usuario usuario = usuarioService.recuperaUsuarioLogado();
+
+		LocalDateTime dataAgora = LocalDateTime.now();
+
+		Partida primeiraPartida = partidaService.buscarPrimeiraPartidaRegistrada();
+
+		LocalDateTime dataInicio = LocalDateTime.of(primeiraPartida.getDataInicio().getYear(),
+				primeiraPartida.getDataInicio().getMonthValue(), 1, 0, 0, 0);
+		LocalDateTime dataFim = dataInicio.plusMonths(1);
+
+		Long diferencaMeses = ChronoUnit.MONTHS.between(dataInicio, dataAgora);
+
+		List<String> labels = new ArrayList<String>();
+		List<BigDecimal> rakesMensais = new ArrayList<BigDecimal>();
+		List<BigDecimal> rakesAcumulados = new ArrayList<BigDecimal>();
+
+		BigDecimal acumulado = BigDecimal.ZERO;
+
+		for (int i = 0; i < diferencaMeses + 1; i++) {
+			BigDecimal lucroRakes = retornaAcumuladoDosRakes(dataInicio, dataFim, usuario);
+
+			labels.add(UtilMes.retornaMesPorNumero(dataInicio.getMonthValue()) + " - " + dataInicio.getYear());
+			rakesMensais.add(lucroRakes);
+			acumulado = acumulado.add(lucroRakes);
+			rakesAcumulados.add(acumulado);
+
+			dataInicio = dataInicio.plusMonths(1);
+			dataFim = dataFim.plusMonths(1);
+		}
+
+		GraficoAcumuladoDTO dto = new GraficoAcumuladoDTO();
+		dto.setLabels(labels);
+		dto.setValores(Arrays.asList(rakesMensais, rakesAcumulados));
+
+		return dto;
 	}
 }
