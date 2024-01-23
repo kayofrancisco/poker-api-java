@@ -96,7 +96,7 @@ public class PartidaServiceImpl implements PartidaService {
 		partidaBanco.setQuantidadeMaosFim(partida.getQuantidadeMaosFim());
 		partidaBanco.setFichasIniciais(partida.getFichasIniciais());
 		partidaBanco.setFichasFinais(partida.getFichasFinais());
-		partidaBanco.setOnline(partida.getOnline());
+//		partidaBanco.setOnline(partida.getOnline());
 
 //		return partidaBanco;
 		return repository.save(partidaBanco);
