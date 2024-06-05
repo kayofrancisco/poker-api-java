@@ -36,6 +36,7 @@ public class ResponseUtils {
 	}
 
 	public static <T> ResponseEntity<ContentDTO<T>> falha(Exception e) {
+		System.out.println(e.getMessage());
 		if (e instanceof NegocioException) {
 			NegocioException negocioException = (NegocioException) e;
 			return ResponseUtils.falha(negocioException.getMensagemErros(), HttpStatus.BAD_REQUEST);
