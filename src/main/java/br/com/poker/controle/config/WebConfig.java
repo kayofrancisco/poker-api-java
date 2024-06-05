@@ -19,7 +19,7 @@ public class WebConfig {
 		List<String> todos = Arrays.asList("*");
 	
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowedOrigins(todos);
+		corsConfiguration.setAllowedOrigins(Arrays.asList("https://controle-poker.herokuapp.com"));
 		corsConfiguration.setAllowedHeaders(todos);
 		corsConfiguration.setAllowedMethods(todos);
 		corsConfiguration.setAllowCredentials(Boolean.FALSE);
