@@ -23,7 +23,7 @@ import lombok.Data;
 @Table(name = "rakes", schema = "poker")
 public class Rake {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
 	
